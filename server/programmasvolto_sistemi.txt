@@ -1,0 +1,18 @@
+
+Testi in adozione: Internetworking di Baldino, Rodano, Spano, Iacobelli
+Finalità specifiche della disciplina:
+Progettazione e configurazione di una rete informatica nei suoi elementi essenziali; conoscenza dei
+principali device e interazione con i rispettivi sistemi operativi; definizione delle caratteristiche di
+sicurezza essenziale e dei sistemi di protezione di rete; conoscenza del funzionamento dei protocolli più
+diffusi con particolare attenzione a quelli relativi al settimo livello del modello Iso-Osi.
+Obiettivi educativi e cognitivi generali:
+Obiettivi educativi generali (scopi dell’istruzione): Riuscire a comprendere ed utilizzare tecnologie di
+rete e di comunicazione in modo efficace ed efficiente. Ciò include la capacità di progettare,
+implementare, gestire e mantenere reti di computer e sistemi di comunicazione, nonché la
+comprensione delle implicazioni etiche e sociali di queste tecnologie.
+Obiettivi cognitivi generali (sviluppo delle capacità cognitive degli studenti): Saper analizzare e
+risolvere problemi tecnologici complessi relativi alle reti di computer e ai sistemi di comunicazione;
+comprendere i concetti di architettura di rete, di protocolli di comunicazione, di sicurezza delle reti e
+di gestione delle risorse di rete; lo scopo finale è tra gli altri il raggiungimento della capacità di acquisire
+conoscenze e competenze specifiche in campo tecnologico, di utilizzare la logica, la conoscenza e la
+ragione per risolvere i problemi in modo efficace.
