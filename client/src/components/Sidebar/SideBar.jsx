@@ -4,8 +4,7 @@ import { BiMath, BiMoneyWithdraw } from "react-icons/bi";
 import { TbCloudDataConnection } from 'react-icons/tb'
 import { RxLetterCaseCapitalize } from 'react-icons/rx'
 import { MdOutlineComputer } from 'react-icons/md'
-import { GiCrucifix, GiGreekTemple } from 'react-icons/gi'
-import { TbWeight } from 'react-icons/tb'
+import { GiCrucifix, GiGreekTemple,GiWeightLiftingUp } from 'react-icons/gi'
 import { AiOutlineTranslation, AiFillCode } from "react-icons/ai";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -82,7 +81,7 @@ const routes = [
   {
     path: "/ginnastica",
     name: "Scienze motorie",
-    icon: <TbWeight />,
+    icon: <GiWeightLiftingUp />,
     file: 'ginnastica'
   },
   

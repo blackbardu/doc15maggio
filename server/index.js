@@ -4,6 +4,7 @@ const http = require('http')
 const {Server} = require('socket.io')
 const cors = require('cors')
 const fs = require('fs')
+const { dirname } = require('path')
 
 app.use(cors())
 const server = http.createServer(app)
@@ -34,10 +35,12 @@ io.on('connection', (socket) => {
         switch(selectedValue)
         {
             case "Relazione finale":
-                newFileName='relazionefinale_'+filename
+                newFileName='documents\\relazionefinale_'+filename
+                console.log('new: '+newFileName)
                 break
             case "Programma svolto":
-                newFileName='programmasvolto_'+filename
+                newFileName='documents\\programmasvolto_'+filename
+                console.log('new: '+newFileName)
                 break
 
         }
@@ -78,21 +81,38 @@ io.on('connection', (socket) => {
             if (pageName.hasOwnProperty('pageName')) {
               // Extract and log the <string> value
               const page = pageName.pageName;
+              const dir = 'documents'
 
               const filePrefixes = ['relazionefinale', 'programmasvolto'];
+
+              
     
                 filePrefixes.forEach((prefix) => {
-                fs.readFile(`${prefix}_${page}.txt`, 'utf8', (err, content) => {
+                  fs.readdir(dir, function(err, files) {
                     if (err) {
-                    console.error(err);
-                    return;
+                      console.error(err);
+                      return;
                     }
-                    const fileInfo = {
-                    filename: `${prefix}_${pageName}.txt`,
-                    content: content,
-                    };
-                    socket.emit('filecontent', fileInfo);
-                });
+                    createFiles(socket, prefix, page)
+                    console.log(files)
+                    files.forEach(() => {
+                      fs.readFile(`${prefix}_${page}.txt`, 'utf8', (err, content) => {
+                        if (err) {
+                        console.error(err);
+
+                        createFiles(socket, prefix, page)
+                        
+                        return;
+                        }
+                        const fileInfo = {
+                        filename: `${prefix}_${pageName}.txt`,
+                        content: content,
+                        };
+                        socket.emit('filecontent', fileInfo);
+                      });
+                    })
+                  })
+                    
                 });
             }
         }
@@ -106,13 +126,31 @@ io.on('connection', (socket) => {
       });
 })
 
+
+function createFiles(socket, prefix, page){
+  fs.appendFile(`documents\\${prefix}_${page}.txt`, '', (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log('New text file empty created successfully.');
+    io.emit('filecreato');
+    // Read the files and emit the content to all clients
+    readFiles(socket);
+  });
+}
+
 function readFiles(socket) {
-    fs.readdir(__dirname, (err, files) => {
+
+  const dir = `${__dirname}\\documents`
+  console.log(dir)
+
+    fs.readdir(dir, (err, files) => {
       if (err) {
         console.error(err);
         return;
       }
-  
+      console.log(files)
       const textFiles = files.filter((file) => file.endsWith('.txt'));
   
       textFiles.forEach((file) => {
