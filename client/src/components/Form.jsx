@@ -135,15 +135,16 @@ const Form = ({ pageName }) => {
                     <br/> 
                     <div class="row">
                         <div class="col">
+                          <h4>Anteprima documenti</h4>
                         <Accordion defaultActiveKey="0">
                         <Accordion.Item eventKey="0">
-                            <Accordion.Header>Relazione finale</Accordion.Header>
+                            <Accordion.Header><strong>Relazione finale</strong></Accordion.Header>
                             <Accordion.Body>
                             {renderParagraphs(fileContent[`relazionefinale_${pageName}.txt`])}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="1">
-                            <Accordion.Header>Programma svolto</Accordion.Header>
+                            <Accordion.Header><strong>Programma svolto</strong></Accordion.Header>
                             <Accordion.Body>
                                 {renderParagraphs(fileContent[`programmasvolto_${pageName}.txt`])}
                                 </Accordion.Body>

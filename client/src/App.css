@@ -11,6 +11,24 @@ main {
   padding: 10px;
 }
 
+.user-info {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.user-info span {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.user-info button {
+  margin-left: 10px;
+}
+
+
 .title {
   font-size: 3rem;
   display: grid;

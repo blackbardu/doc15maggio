@@ -4,7 +4,7 @@ import { useNavigate  } from 'react-router-dom';
 
 
 
-function LoginPage() {
+function LoginPage({ onLogin, loggedIn }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate  = useNavigate ();
@@ -19,13 +19,17 @@ function LoginPage() {
 
   const handleLogin = (event) => {
     event.preventDefault();
+    const username = event.target.formUsername.value;
+    const password = event.target.formPassword.value;
 
     // Perform login logic here, e.g. send login request to server
 
     // Clear form fields after login attempt
-    setUsername('');
-    setPassword('');
-    navigate ('/main');
+    event.target.formUsername.value = '';
+    event.target.formPassword.value = '';
+
+    onLogin(username);
+    navigate('/main'); // Navigates to the "/main" route after successful login
   };
 
   return (
