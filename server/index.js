@@ -4,10 +4,19 @@ const http = require('http')
 const {Server} = require('socket.io')
 const cors = require('cors')
 const fs = require('fs')
+const db = require('./db');
 
 app.use(cors())
 const server = http.createServer(app)
 
+app.get('/teachers', async (req, res) => {
+  try {
+    const teachers = await db('SELECT * FROM Insegnanti');
+    res.json(teachers);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
 
 const io = new Server(server, {
     cors: {
