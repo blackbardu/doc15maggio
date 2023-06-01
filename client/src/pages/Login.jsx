@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-
-
-function LoginPage({ onLogin, loggedIn }) {
+function LoginPage({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate  = useNavigate ();
+  const navigate = useNavigate();
 
   const handleUserChange = (event) => {
     setUsername(event.target.value);
@@ -17,19 +16,29 @@ function LoginPage({ onLogin, loggedIn }) {
     setPassword(event.target.value);
   };
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    const username = event.target.formUsername.value;
-    const password = event.target.formPassword.value;
 
-    // Perform login logic here, e.g. send login request to server
+    try {
+      const response = await axios.post('http://localhost:3005/api/login', { username, password });
+      const { success, loggedInUsername, error } = response.data;
+
+      if (success) {
+        // Username and password are correct
+        onLogin(loggedInUsername);
+        navigate('/main');
+      } else {
+        // Invalid username or password
+        alert(error);
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      alert('An unexpected error occurred during login. Please try again later.');
+    }
 
     // Clear form fields after login attempt
-    event.target.formUsername.value = '';
-    event.target.formPassword.value = '';
-
-    onLogin(username);
-    navigate('/main'); // Navigates to the "/main" route after successful login
+    setUsername('');
+    setPassword('');
   };
 
   return (
@@ -40,26 +49,26 @@ function LoginPage({ onLogin, loggedIn }) {
           <Form.Group controlId="formUsername">
             <Form.Label>Username</Form.Label>
             <Form.Control
-              type="username"
-              placeholder="Inserisci username"
+              type="text"
+              placeholder="Enter username"
               value={username}
               onChange={handleUserChange}
             />
-        </Form.Group>
+          </Form.Group>
 
-        <Form.Group controlId="formPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-            type="password"
-            placeholder="Inserisci password"
-            value={password}
-            onChange={handlePasswordChange}
-        />
-        </Form.Group>
-        <br/>
-        <Button variant="primary" type="submit" className="w-100">
-        Login
-        </Button>
+          <Form.Group controlId="formPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </Form.Group>
+          <br />
+          <Button variant="primary" type="submit" className="w-100">
+            Login
+          </Button>
         </Form>
       </div>
     </Container>
