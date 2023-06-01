@@ -122,7 +122,7 @@ const Form = ({ pageName }) => {
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlTextarea1" class="form-label">Testo</label>
-                                <textarea ref={textareaRef} value={textareaValue} rows="1" onChange={handleInputChange} class="form-control" id="textareaform" rows="3"></textarea>
+                                <textarea ref={textareaRef} value={textareaValue} rows="1" onChange={handleInputChange} class="form-control" id="textareaform" row="3"></textarea>
                             </div>
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="check" checked={isChecked} onChange={handleCheckboxChange}/>
