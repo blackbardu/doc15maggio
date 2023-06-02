@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import SideBar from './components/Sidebar/SideBar';
 import Dashboard from './pages/Dashboard';
@@ -14,6 +14,7 @@ import Religione from './pages/Religione';
 import Ginnastica from './pages/Ginnastica';
 import LoginPage from './pages/Login';
 import { Button } from 'react-bootstrap';
+import { MyArrayProvider } from './components/MyArrayContext';
 import './App.css';
 
 function PrivateRoute({ element: Element, loggedIn, ...rest }) {
@@ -42,6 +43,7 @@ function App() {
   };
 
   return (
+    <MyArrayProvider>
     <Router>
       {loggedIn ? (
         <div>
@@ -71,6 +73,7 @@ function App() {
         </Routes>
       )}
     </Router>
+    </MyArrayProvider>
   );
 }
 

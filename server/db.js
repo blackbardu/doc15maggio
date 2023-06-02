@@ -35,7 +35,20 @@ app.post('/api/login', (req, res) => {
       if (results.length > 0) {
         // Username and password are correct
         const loggedInUsername = results[0].nome_utente;
-        res.json({ success: true, loggedInUsername });
+
+        const queryMaterie = 'SELECT materia FROM Materia_Insegnata WHERE id_insegnante = ?';
+        const idInsegnante = results[0].id;
+        
+        pool.query(queryMaterie, idInsegnante, (errorMaterie, resultsMaterie) => {
+          if (errorMaterie) {
+            console.error('Error during retrieving subjects:', errorMaterie);
+            res.status(500).json({ success: false, error: 'An error occurred during login.' });
+          } else {
+            const materieInsegnate = resultsMaterie.map((row) => row.materia);
+            res.json({ success: true, loggedInUsername, materieInsegnate });
+            console.log(loggedInUsername, materieInsegnate)
+          }
+        });
       } else {
         // Invalid username or password
         res.json({ success: false, error: 'Invalid username or password.' });
@@ -43,6 +56,10 @@ app.post('/api/login', (req, res) => {
     }
   });
 });
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

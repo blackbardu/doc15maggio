@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { MyArrayContext } from '../components/MyArrayContext';
 import axios from 'axios';
 
 function LoginPage({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { setMyArray } = useContext(MyArrayContext);
+  
+  var materie = []
 
   const handleUserChange = (event) => {
     setUsername(event.target.value);
@@ -21,12 +25,18 @@ function LoginPage({ onLogin }) {
 
     try {
       const response = await axios.post('http://localhost:3005/api/login', { username, password });
-      const { success, loggedInUsername, error } = response.data;
+      const { success, loggedInUsername, materieInsegnate, error } = response.data;
 
       if (success) {
         // Username and password are correct
         onLogin(loggedInUsername);
         navigate('/main');
+        for(let i = 0; i<materieInsegnate.length; i++){
+          materie.push(materieInsegnate[i]);
+        }
+
+        setMyArray(materie);
+
       } else {
         // Invalid username or password
         alert(error);
@@ -40,6 +50,8 @@ function LoginPage({ onLogin }) {
     setUsername('');
     setPassword('');
   };
+
+  
 
   return (
     <Container fluid className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh', backgroundColor: '#32CD32' }}>

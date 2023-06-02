@@ -7,11 +7,14 @@ import { MdOutlineComputer } from 'react-icons/md'
 import { GiCrucifix, GiGreekTemple } from 'react-icons/gi'
 import { TbWeight } from 'react-icons/tb'
 import { AiOutlineTranslation, AiFillCode } from "react-icons/ai";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { RiAdminFill } from 'react-icons/ri'
 import SidebarMenu from "./SidebarMenu";
 import io from 'socket.io-client'
+import { MyArrayContext } from '../MyArrayContext';
+import './Sidebar.css'
+
 const routes = [
   {
     path: "/main",
@@ -113,6 +116,7 @@ const routes = [
 ];
 
 const SideBar = ({ children }) => {
+  const { myArray } = useContext(MyArrayContext);
 
   const socket = io.connect('http://localhost:3001')
 
