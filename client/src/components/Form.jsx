@@ -3,7 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import io from 'socket.io-client'
 import {useEffect, useState, useRef } from 'react';
-import SuccessModal from './SuccessModal';
+import SuccessModal from './Modals/SuccessModal';
 import React from 'react';
 
 const socket = io.connect('http://localhost:3001')

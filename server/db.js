@@ -38,15 +38,25 @@ app.post('/api/login', (req, res) => {
 
         const queryMaterie = 'SELECT materia FROM Materia_Insegnata WHERE id_insegnante = ?';
         const idInsegnante = results[0].id;
-        
+
         pool.query(queryMaterie, idInsegnante, (errorMaterie, resultsMaterie) => {
           if (errorMaterie) {
             console.error('Error during retrieving subjects:', errorMaterie);
             res.status(500).json({ success: false, error: 'An error occurred during login.' });
           } else {
             const materieInsegnate = resultsMaterie.map((row) => row.materia);
-            res.json({ success: true, loggedInUsername, materieInsegnate });
-            console.log(loggedInUsername, materieInsegnate)
+
+            const queryCoordinatore = 'SELECT * FROM Coordinatore WHERE id_coordinatore = ?';
+            pool.query(queryCoordinatore, idInsegnante, (errorCoordinatore, resultsCoordinatore) => {
+              if (errorCoordinatore) {
+                console.error('Error during retrieving coordinator:', errorCoordinatore);
+                res.status(500).json({ success: false, error: 'An error occurred during login.' });
+              } else {
+                const isCoordinatore = resultsCoordinatore.length > 0;
+                res.json({ success: true, loggedInUsername, materieInsegnate, isCoordinatore });
+                console.log(loggedInUsername, materieInsegnate, isCoordinatore);
+              }
+            });
           }
         });
       } else {

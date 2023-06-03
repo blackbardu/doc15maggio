@@ -10,7 +10,7 @@ const SuccessModal = ({ show, onClose }) => {
           <Modal.Title>Operazione eseguita</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Il file è stato creato con successo</p>
+          <p>L'operazione è stata eseguita con successo</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="success" onClick={onClose}>

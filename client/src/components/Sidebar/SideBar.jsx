@@ -21,84 +21,84 @@ const routes = [
     name: "Dashboard",
     icon: <FaHome />,
     file: 'exclude',
-    name: 'dashboard'
+    link: 'dashboard'
   },
   {
     path: "/coordinatore",
     name: "Coordinatore",
     icon: <RiAdminFill />,
     file: 'exclude',
-    name: 'coordinatore'
+    link: 'coordinatore'
   },
   {
     path: "/italiano",
     name: "Italiano",
     icon: <RxLetterCaseCapitalize />,
     file: 'italiano',
-    name: 'italiano'
+    link: 'italiano'
   },
   {
     path: "/storia",
     name: "Storia",
     icon: <GiGreekTemple />,
     file: 'storia',
-    name: 'storia'
+    link: 'storia'
   },
   {
     path: "/inglese",
     name: "Inglese",
     icon: <AiOutlineTranslation />,
     file: 'inglese',
-    name: 'inglese'
+    link: 'inglese'
   },
   {
     path: "/matematica",
     name: "Matematica",
     icon: <BiMath />,
     file: 'matematica',
-    name: 'matematica'
+    link: 'matematica'
   },
   {
     path: "/informatica",
     name: "Informatica",
     icon: <AiFillCode />,
     file: 'informatica',
-    name: 'informatica'
+    link: 'informatica'
   },
   {
     path: "/sistemi",
     name: "Sistemi e reti",
     icon: <TbCloudDataConnection />,
     file: 'sistemi',
-    name: 'sistemi'
+    link: 'sistemi'
   },
   {
     path: "/tpsit",
     name: "TPSIT",
     icon: <MdOutlineComputer />,
     file: 'tpsit',
-    name: 'tpsit'
+    link: 'tpsit'
   },
   {
     path: "/gpoi",
     name: "GPOI",
     icon: <BiMoneyWithdraw />,
     file: 'gpoi',
-    name: 'gpoi'
+    link: 'gpoi'
   },
   {
     path: "/religione",
     name: "Religione",
     icon: <GiCrucifix />,
     file: 'religione',
-    name: 'religione'
+    link: 'religione'
   },
   {
     path: "/ginnastica",
     name: "Scienze motorie",
     icon: <TbWeight />,
     file: 'ginnastica',
-    name: 'ginnastica'
+    link: 'ginnastica'
   },
   
   /*{
@@ -130,7 +130,7 @@ const routes = [
 const SideBar = ({ children }) => {
   const { myArray } = useContext(MyArrayContext);
   const filteredRoutes = routes.filter(
-    (route) => route.name === 'dashboard' || myArray.includes(route.name)
+    (route) => route.link === 'dashboard' || myArray.includes(route.link)
   );
 
   const socket = io.connect('http://localhost:3001')
@@ -215,7 +215,7 @@ const SideBar = ({ children }) => {
           </div>
           <section className="routes">
             {routes.map((route, index) => {
-              if (route.name === 'dashboard' || filteredRoutes.includes(route)) {
+              if (route.link === 'dashboard' || filteredRoutes.includes(route)) {
               if (route.subRoutes) {
                 return (
                   <SidebarMenu
@@ -233,7 +233,7 @@ const SideBar = ({ children }) => {
                   key={index}
                   className="link"
                   activeClassName="active"
-                  onClick={() => handleSidebarLinkClick(route.name)}
+                  onClick={() => handleSidebarLinkClick(route.link)}
                 >
                   <div className="icon">{route.icon}</div>
                   <AnimatePresence>

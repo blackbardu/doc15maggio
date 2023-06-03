@@ -25,7 +25,7 @@ function LoginPage({ onLogin }) {
 
     try {
       const response = await axios.post('http://localhost:3005/api/login', { username, password });
-      const { success, loggedInUsername, materieInsegnate, error } = response.data;
+      const { success, loggedInUsername, materieInsegnate, isCoordinatore, error } = response.data;
 
       if (success) {
         // Username and password are correct
@@ -33,6 +33,10 @@ function LoginPage({ onLogin }) {
         navigate('/main');
         for(let i = 0; i<materieInsegnate.length; i++){
           materie.push(materieInsegnate[i]);
+        }
+
+        if(isCoordinatore==true){
+          materie.push('coordinatore')
         }
 
         setMyArray(materie);
