@@ -20,73 +20,85 @@ const routes = [
     path: "/main",
     name: "Dashboard",
     icon: <FaHome />,
-    file: 'exclude'
+    file: 'exclude',
+    name: 'dashboard'
   },
   {
     path: "/coordinatore",
     name: "Coordinatore",
     icon: <RiAdminFill />,
-    file: 'exclude'
+    file: 'exclude',
+    name: 'coordinatore'
   },
   {
     path: "/italiano",
     name: "Italiano",
     icon: <RxLetterCaseCapitalize />,
-    file: 'italiano'
+    file: 'italiano',
+    name: 'italiano'
   },
   {
     path: "/storia",
     name: "Storia",
     icon: <GiGreekTemple />,
-    file: 'storia'
+    file: 'storia',
+    name: 'storia'
   },
   {
     path: "/inglese",
     name: "Inglese",
     icon: <AiOutlineTranslation />,
-    file: 'inglese'
+    file: 'inglese',
+    name: 'inglese'
   },
   {
     path: "/matematica",
     name: "Matematica",
     icon: <BiMath />,
-    file: 'matematica'
+    file: 'matematica',
+    name: 'matematica'
   },
   {
     path: "/informatica",
     name: "Informatica",
     icon: <AiFillCode />,
-    file: 'informatica'
+    file: 'informatica',
+    name: 'informatica'
   },
   {
     path: "/sistemi",
     name: "Sistemi e reti",
     icon: <TbCloudDataConnection />,
-    file: 'sistemi'
+    file: 'sistemi',
+    name: 'sistemi'
   },
   {
     path: "/tpsit",
     name: "TPSIT",
     icon: <MdOutlineComputer />,
-    file: 'tpsit'
+    file: 'tpsit',
+    name: 'tpsit'
   },
   {
     path: "/gpoi",
     name: "GPOI",
     icon: <BiMoneyWithdraw />,
-    file: 'gpoi'
+    file: 'gpoi',
+    name: 'gpoi'
   },
   {
     path: "/religione",
     name: "Religione",
     icon: <GiCrucifix />,
-    file: 'religione'
+    file: 'religione',
+    name: 'religione'
   },
   {
     path: "/ginnastica",
     name: "Scienze motorie",
     icon: <TbWeight />,
-    file: 'ginnastica'
+    file: 'ginnastica',
+    name: 'ginnastica'
   },
   
   /*{
@@ -117,6 +129,9 @@ const routes = [
 
 const SideBar = ({ children }) => {
   const { myArray } = useContext(MyArrayContext);
+  const filteredRoutes = routes.filter(
+    (route) => route.name === 'dashboard' || myArray.includes(route.name)
+  );
 
   const socket = io.connect('http://localhost:3001')
 
@@ -200,6 +215,7 @@ const SideBar = ({ children }) => {
           </div>
           <section className="routes">
             {routes.map((route, index) => {
+              if (route.name === 'dashboard' || filteredRoutes.includes(route)) {
               if (route.subRoutes) {
                 return (
                   <SidebarMenu
@@ -217,7 +233,7 @@ const SideBar = ({ children }) => {
                   key={index}
                   className="link"
                   activeClassName="active"
-                  onClick={handleSidebarLinkClick(route.file)}
+                  onClick={() => handleSidebarLinkClick(route.name)}
                 >
                   <div className="icon">{route.icon}</div>
                   <AnimatePresence>
@@ -235,7 +251,7 @@ const SideBar = ({ children }) => {
                   </AnimatePresence>
                 </NavLink>
               );
-            })}
+            }})}
           </section>
         </motion.div>
 
