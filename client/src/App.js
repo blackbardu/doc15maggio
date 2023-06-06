@@ -12,6 +12,7 @@ import TPSIT from './pages/TPSIT';
 import GPOI from './pages/GPOI';
 import Religione from './pages/Religione';
 import Ginnastica from './pages/Ginnastica';
+import Coordinatore from './pages/Coordinatore'
 import LoginPage from './pages/Login';
 import { Button } from 'react-bootstrap';
 import { MyArrayProvider } from './components/MyArrayContext';
@@ -54,6 +55,7 @@ function App() {
           <SideBar>
             <Routes>
               <Route path="/main" element={<PrivateRoute element={Dashboard} loggedIn={loggedIn} />} />
+              <Route path="/coordinatore" element={<PrivateRoute element={Coordinatore} loggedIn={loggedIn} />} />
               <Route path="/italiano" element={<PrivateRoute element={Italiano} loggedIn={loggedIn} />} />
               <Route path="/storia" element={<PrivateRoute element={Storia} loggedIn={loggedIn} />} />
               <Route path="/inglese" element={<PrivateRoute element={Inglese} loggedIn={loggedIn} />} />

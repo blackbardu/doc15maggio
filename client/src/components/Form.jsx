@@ -5,6 +5,8 @@ import io from 'socket.io-client'
 import {useEffect, useState, useRef } from 'react';
 import SuccessModal from './Modals/SuccessModal';
 import React from 'react';
+import { useContext } from 'react';
+import { MyArrayContext } from '../components/MyArrayContext';
 
 const socket = io.connect('http://localhost:3001')
 
@@ -19,6 +21,9 @@ const Form = ({ pageName }) => {
     const textareaRef = useRef(null);
 
     const [fileContent, setFileContent] = useState({});
+
+    
+    
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -71,7 +76,15 @@ const Form = ({ pageName }) => {
             }));
           });
 
+
         socket.emit('get_files', {pageName});
+
+        socket.on('filecontent', (fileInfo) => {
+          setFilePresence((prevFilePresence) => ({
+            ...prevFilePresence,
+            [fileInfo.filename]: !!fileInfo.content, // True se il file ha contenuto, altrimenti false
+          }));
+        });
 
         return () => {
             // Clean up the event listener

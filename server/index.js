@@ -4,7 +4,7 @@ const http = require('http')
 const {Server} = require('socket.io')
 const cors = require('cors')
 const fs = require('fs')
-const db = require('./db'); 
+const path = require('path');
 
 app.use(cors())
 const server = http.createServer(app)
@@ -101,11 +101,55 @@ io.on('connection', (socket) => {
       });
 
     readFiles(socket);
+      
+
+    socket.on('dotted_files', (myArray) =>{
+      console.log(myArray.myArray)
+      readDottedFiles(socket, myArray.myArray)
+
+    })
 
     socket.on('disconnect', () => {
         console.log(`User disconnected: ${socket.id}`);
       });
 })
+
+
+function readDottedFiles(socket, myArray) {
+  const filePrefixes = ['relazionefinale', 'programmasvolto'];
+
+  if (Array.isArray(myArray)) {
+    filePrefixes.forEach((prefix) => {
+      myArray.forEach((item) => {
+        const filename = `${prefix}_${item}.txt`;
+        const filePath = path.join(__dirname, filename);
+        const filePresence = fs.existsSync(filePath);
+
+        if (filePresence) {
+          fs.readFile(filePath, 'utf8', (err, content) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+
+            const isEmpty = /^\s*$/.test(content);
+
+            
+            socket.emit('filepresence', { filename, isPresent: !isEmpty });
+            console.log(filename, !isEmpty)
+          });
+        } else {
+          socket.emit('filepresence', { filename, isPresent: false });
+        }
+      });
+    });
+  } else {
+    console.error('myArray is not an array');
+  }
+}
+
+
+
 
 function readFiles(socket) {
     fs.readdir(__dirname, (err, files) => {
