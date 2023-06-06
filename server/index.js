@@ -5,6 +5,8 @@ const {Server} = require('socket.io')
 const cors = require('cors')
 const fs = require('fs')
 const path = require('path');
+const PdfPrinter = require('pdfmake');
+const printer = new PdfPrinter(fonts);
 
 app.use(cors())
 const server = http.createServer(app)
@@ -16,6 +18,15 @@ const io = new Server(server, {
         methods: ["GET", "POST"],
     },
 }) 
+
+var fonts = {
+  Roboto: {
+    normal: 'jsnode/fonts/DejaVuSans.ttf',
+    bold: 'jsnode/fonts/DejaVuSans-Bold.ttf',
+    italics: 'jsnode/fonts/DejaVuSans.ttf',
+    bolditalics: 'jsnode/fonts/DejaVuSans.ttf'
+  }
+}
 
 
 io.on('connection', (socket) => {
