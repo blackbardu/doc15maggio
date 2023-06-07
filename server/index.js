@@ -77,7 +77,6 @@ io.on('connection', (socket) => {
               }
               console.log('Text file created successfully.');
               io.emit('filecreato');
-              // Read the files and emit the content to all clients
               readFiles(socket);
             });
           } else {
@@ -88,7 +87,6 @@ io.on('connection', (socket) => {
               }
               console.log('Text file updated successfully.');
               io.emit('filecreato');
-              // Read the files and emit the content to all clients
               readFiles(socket);
             });
           }
@@ -101,9 +99,7 @@ io.on('connection', (socket) => {
         readFiles(socket)
 
         if (typeof pageName === 'object' && pageName !== null) {
-            // Check if pageName has the pageName property
             if (pageName.hasOwnProperty('pageName')) {
-              // Extract and log the <string> value
               const page = pageName.pageName;
 
               const filePrefixes = ['relazionefinale', 'programmasvolto'];

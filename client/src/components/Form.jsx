@@ -39,7 +39,6 @@ const Form = ({ pageName }) => {
 
 
     const handleInputChange = (event) => {
-    // Update input value
         setMessage(event.target.value)
         handleChange(event)
     };
@@ -82,12 +81,11 @@ const Form = ({ pageName }) => {
         socket.on('filecontent', (fileInfo) => {
           setFilePresence((prevFilePresence) => ({
             ...prevFilePresence,
-            [fileInfo.filename]: !!fileInfo.content, // True se il file ha contenuto, altrimenti false
+            [fileInfo.filename]: !!fileInfo.content, 
           }));
         });
 
         return () => {
-            // Clean up the event listener
             socket.off('filecreato');
             socket.off('filecontent');
           };
@@ -95,7 +93,7 @@ const Form = ({ pageName }) => {
 
     const renderParagraphs = (paragraphs) => {
         if (!paragraphs || paragraphs.length === 0) {
-          return null; // Return null if paragraphs array is empty or undefined
+          return null; 
         }
       
         return paragraphs.map((paragraph, index) => (

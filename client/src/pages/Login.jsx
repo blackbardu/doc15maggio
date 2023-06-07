@@ -28,7 +28,6 @@ function LoginPage({ onLogin }) {
       const { success, loggedInUsername, materieInsegnate, isCoordinatore, error } = response.data;
 
       if (success) {
-        // Username and password are correct
         onLogin(loggedInUsername);
         navigate('/main');
         for(let i = 0; i<materieInsegnate.length; i++){
@@ -42,7 +41,6 @@ function LoginPage({ onLogin }) {
         setMyArray(materie);
 
       } else {
-        // Invalid username or password
         alert(error);
       }
     } catch (error) {
@@ -50,7 +48,6 @@ function LoginPage({ onLogin }) {
       alert('An unexpected error occurred during login. Please try again later.');
     }
 
-    // Clear form fields after login attempt
     setUsername('');
     setPassword('');
   };

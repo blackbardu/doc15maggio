@@ -39,7 +39,7 @@ function App() {
     if (window.confirm('Sei sicuro di voler effettuare il logout?')) {
       setLoggedIn(false);
       setUsername('');
-      window.location.href = "/"; // Redirect to the login page
+      window.location.href = "/"; 
     }
   };
 

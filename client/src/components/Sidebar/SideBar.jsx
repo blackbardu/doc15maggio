@@ -136,7 +136,6 @@ const SideBar = ({ children }) => {
   const socket = io.connect('http://localhost:3001')
 
   const handleSidebarLinkClick = (pageName) => {
-    // Emit a Socket.IO event
     if(pageName != 'exclude')
     {
       socket.emit('get_files', {pageName});

@@ -3,7 +3,6 @@ const mysql = require('mysql');
 const app = express();
 const port = 3005;
 
-// Create a MySQL connection pool
 const pool = mysql.createPool({
   host: '127.0.0.1',
   user: 'root',
@@ -33,7 +32,6 @@ app.post('/api/login', (req, res) => {
       res.status(500).json({ success: false, error: 'An error occurred during login.' });
     } else {
       if (results.length > 0) {
-        // Username and password are correct
         const loggedInUsername = results[0].nome_utente;
 
         const queryMaterie = 'SELECT materia FROM Materia_Insegnata WHERE id_insegnante = ?';
@@ -60,7 +58,6 @@ app.post('/api/login', (req, res) => {
           }
         });
       } else {
-        // Invalid username or password
         res.json({ success: false, error: 'Invalid username or password.' });
       }
     }

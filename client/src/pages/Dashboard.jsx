@@ -74,7 +74,7 @@ const Dashboard = () => {
                     <h3>{item.charAt(0).toUpperCase() + item.slice(1)}</h3>
                     {isBothFilesPresent(item) && (
                     <Button variant="primary" onClick={() => richiediDocumento(item)} style={{ marginLeft: '10px' }}>
-                        <FaFileAlt /> {/* Render the document icon */}
+                        <FaFileAlt /> 
                     </Button>
                     )}
                 </div>
