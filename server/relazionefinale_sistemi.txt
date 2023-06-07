@@ -1,4 +1,2 @@
-
-prova
-sistemi
-prova
+La classe è composta da venticinque studenti e presenta al suo interno un buon livello di coesione. Gli alunni si sono dimostrati nell’arco degli ultimi due anni di studi collaborativi e favorevoli ad un dialogo educativo proficuo. I rapporti interpersonali sono sempre stati rispettosi e cordiali e non si sono osservate problematiche significative all’interno del gruppo classe. Questo atteggiamento, una buona partecipazione degli alunni alle lezioni e un impegno sufficientemente costante hanno favorito i processi di apprendimento come dimostrato dalle poche insufficienze presenti nel quadro di voti degli alunni.
+Dal punto di vista del comportamento, gli studenti hanno tenuto una condotta corretta sia nelle attività in aule che in quelle di laboratorio. Il profitto della classe è generalmente positivo, ma i risultati non sono omogenei. Alcuni alunni si sono infatti distinti per interesse, partecipazione e merito, altri non hanno raggiunto lo stesso livello di profitto.

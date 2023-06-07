@@ -1,18 +1,30 @@
+Obiettivi Conseguiti:
+Progettazione e simulazione di reti di computer e sistemi di comunicazione negli elementi essenziali; comprensione dei concetti di architettura di rete, di protocolli di comunicazione, di sicurezza delle reti e di gestione delle risorse di rete. L’obiettivo finale cui si è teso, tra gli altri, è il raggiungimento della capacità di utilizzare la logica, la conoscenza e la ragione per risolvere problemi, nell’ambito dei sistemi, in modo efficace.
 
-Testi in adozione: Internetworking di Baldino, Rodano, Spano, Iacobelli
-Finalità specifiche della disciplina:
-Progettazione e configurazione di una rete informatica nei suoi elementi essenziali; conoscenza dei
-principali device e interazione con i rispettivi sistemi operativi; definizione delle caratteristiche di
-sicurezza essenziale e dei sistemi di protezione di rete; conoscenza del funzionamento dei protocolli più
-diffusi con particolare attenzione a quelli relativi al settimo livello del modello Iso-Osi.
-Obiettivi educativi e cognitivi generali:
-Obiettivi educativi generali (scopi dell’istruzione): Riuscire a comprendere ed utilizzare tecnologie di
-rete e di comunicazione in modo efficace ed efficiente. Ciò include la capacità di progettare,
-implementare, gestire e mantenere reti di computer e sistemi di comunicazione, nonché la
-comprensione delle implicazioni etiche e sociali di queste tecnologie.
-Obiettivi cognitivi generali (sviluppo delle capacità cognitive degli studenti): Saper analizzare e
-risolvere problemi tecnologici complessi relativi alle reti di computer e ai sistemi di comunicazione;
-comprendere i concetti di architettura di rete, di protocolli di comunicazione, di sicurezza delle reti e
-di gestione delle risorse di rete; lo scopo finale è tra gli altri il raggiungimento della capacità di acquisire
-conoscenze e competenze specifiche in campo tecnologico, di utilizzare la logica, la conoscenza e la
-ragione per risolvere i problemi in modo efficace.
+Metodi di Insegnamento:
+Si sono orientate le attività al fine di sviluppare la logica attraverso l’analisi dei dati e la didattica guidata; organizzare il processo di apprendimento in moduli in sequenza logica; presentare gli argomenti nella forma teorica ed in seguito metterli in pratica in laboratorio; sviluppate i temi in logica deduttiva, dal generale al particolare. 
+
+Contenuti disciplinari:
+Gli elementi centrali della disciplina sono costituiti da tre differenti macro aree intercomunicanti fra loro e suddivise in nove moduli: networking; protocolli di applicazione; sistemi di sicurezza. 
+
+I moduli didattici sono stati distribuiti nei due quadrimestri nella seguente maniera: 
+
+(1°quadrimestre)
+• Modulo 1 – Virtual Local Area Network: progettazione e strutturazione di VLAN, utilizzo di protocolli specifici tra cui il Virtual Trunking Protocol e set dei device necessari.
+• Modulo 2 – Crittografia: concetto di sicurezza informatica, cifrari e sistemi di crittografia, crittografia a chiave simmetrica ed asimmetrica, firma digitale, DES, RSA;
+• Modulo 3 – Protocolli SSH e SSL/TLS: confidenzialità attraverso la rete, funzionamento e scopo dei protocolli, concetto di tunneling;
+• Modulo 4 – Protocolli di livello applicazione ISO-OSI: telnet, http, smtp, pop3, imap, ftp, snmp, dhcp, dns;
+
+(2° quadrimestre) 
+• Modulo 5 – VPN: realizzazione e configurazione nelle modalità site-to-site e remote-access, protocollo IPSec;
+• Modulo 6 – Firewall e Proxy: controllo degli accessi e monitoring, ACL, Firewall, DMZ, Proxy e Nat;
+• Modulo 7 – Sistemi di autenticazione: rete cablata e wireless, il servizio AAA, Radius. IOT
+• Modulo 8 – Sistemi di archiviazione e server: archiviazione e backup, sistema Raid, Nas.
+• Modulo 9 – Cloud: housing e hosting, server farm e data center, cloud computing e modelli di servizi, multi-tier application.
+
+Metodi (spazi, tempi):
+le lezioni sono state organizzate fra aula e laboratorio per un monte ore previsto di 4 ore settimanali. 
+Attività di aula (1 ora settimanale): le attività di aula sono state orientate alla comprensione dei 
+fondamenti disciplinari, alla radicazione delle conoscenze tecnologiche. Strategie adottate: lezione frontale, discussione guidata, studio di caso.
+Attività di laboratorio (3 ore settimanali): le attività di laboratorio, intese come integranti e complementari delle lezioni teoriche d’aula, sono state svolte nel laboratorio LT dell’Istituto per un totale di 3 ore settimanali. I contenuti hanno riguardato principalmente seguenti argomenti: simulazione di progettazione di rete e configurazione devices attraverso l’utilizzo del software Cisco Packet tracer; moduli di simulazione e virtualizzazione di proxy e O.S. server, attività complementari alla sicurezza: packet sniffing, spoofing. A completamento delle attività sono state proposte esercitazioni 
+riguardanti il cloud e servizi. Strategie adottate: didattica laboratoriale, learn by doing, problema di realtà.

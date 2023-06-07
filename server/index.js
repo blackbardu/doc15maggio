@@ -6,10 +6,23 @@ const cors = require('cors')
 const fs = require('fs')
 const path = require('path');
 const PdfPrinter = require('pdfmake');
-const printer = new PdfPrinter(fonts);
+
 
 app.use(cors())
 const server = http.createServer(app)
+
+app.get('/download/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, filename);
+  
+  res.download(filePath, (err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error downloading file');
+    }
+  });
+});
+
 
 
 const io = new Server(server, {
@@ -21,12 +34,14 @@ const io = new Server(server, {
 
 var fonts = {
   Roboto: {
-    normal: 'jsnode/fonts/DejaVuSans.ttf',
-    bold: 'jsnode/fonts/DejaVuSans-Bold.ttf',
-    italics: 'jsnode/fonts/DejaVuSans.ttf',
-    bolditalics: 'jsnode/fonts/DejaVuSans.ttf'
+    normal: 'node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf',
+    bold: 'node_modules/dejavu-fonts-ttf/ttf/DejaVuSans-Bold.ttf',
+    italics: 'node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf',
+    bolditalics: 'node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf'
   }
 }
+
+const printer = new PdfPrinter(fonts);
 
 
 io.on('connection', (socket) => {
@@ -120,6 +135,55 @@ io.on('connection', (socket) => {
 
     })
 
+    socket.on('downloadFile', ({ pageName }) => {
+      const programmasvoltoFile = `programmasvolto_${pageName}.txt`;
+      const relazionefinaleFile = `relazionefinale_${pageName}.txt`;
+      console.log(pageName)
+
+      var labelPagina = pageName.charAt(0).toUpperCase() + pageName.slice(1)
+      switch(labelPagina){
+        case 'Sistemi':
+          labelPagina='Sistemi e reti'
+          break;
+        case 'Italiano':
+          labelPagina='Lingua e letteratura italiana'
+          break;
+        default:
+          break;
+      }
+
+      console.log(labelPagina)
+    
+      const programmasvoltoContent = fs.readFileSync(programmasvoltoFile, 'utf8');
+      const relazionefinaleContent = fs.readFileSync(relazionefinaleFile, 'utf8');
+    
+      const docDefinition = {
+        content: [
+          { text: labelPagina, style: 'header'},
+          { text: 'Relazione finale', style: 'header' },
+          { text: relazionefinaleContent },
+          { text: 'Programma svolto', style: 'header' },
+          { text: programmasvoltoContent },
+          
+        ],
+        styles: {
+          header: {
+            fontSize: 18,
+            bold: true,
+            margin: [0, 10, 0, 5],
+          },
+        },
+      };
+    
+      const pdfDoc = printer.createPdfKitDocument(docDefinition);
+      const filePath = path.join(__dirname, `output_${pageName}.pdf`);
+    
+      pdfDoc.pipe(fs.createWriteStream(filePath));
+      pdfDoc.end();
+    
+      socket.emit('filedownload', { filename: `output_${pageName}.pdf` });
+    });
+
     socket.on('disconnect', () => {
         console.log(`User disconnected: ${socket.id}`);
       });
@@ -137,18 +201,10 @@ function readDottedFiles(socket, myArray) {
         const filePresence = fs.existsSync(filePath);
 
         if (filePresence) {
-          fs.readFile(filePath, 'utf8', (err, content) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
-
-            const isEmpty = /^\s*$/.test(content);
-
-            
-            socket.emit('filepresence', { filename, isPresent: !isEmpty });
-            console.log(filename, !isEmpty)
-          });
+          const content = fs.readFileSync(filePath, 'utf8');
+          const isEmpty = /^\s*$/.test(content);
+          socket.emit('filepresence', { filename, isPresent: !isEmpty });
+          console.log(filename, !isEmpty);
         } else {
           socket.emit('filepresence', { filename, isPresent: false });
         }
@@ -158,6 +214,7 @@ function readDottedFiles(socket, myArray) {
     console.error('myArray is not an array');
   }
 }
+
 
 
 
