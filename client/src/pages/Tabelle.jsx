@@ -20,7 +20,7 @@ const Tabelle = () => {
     
       const handleCellChange = (e, rowIndex, colIndex) => {
         if (rowIndex === 0 || colIndex === 0) {
-          return; // Non modificare la prima riga o la prima colonna
+          return;
         }
     
         const newData = [...tableData];
