@@ -144,6 +144,17 @@ io.on('connection', (socket) => {
         case 'Italiano':
           labelPagina='Lingua e letteratura italiana'
           break;
+        case 'Tpsit':
+          labelPagina='Tecnologie e progettazione di sistemi informatici e di telecomunicazioni'
+          break;
+        case 'Gpoi':
+          labelPagina='Gestione progetto, organizzazione d‟impresa'
+          break;
+        case 'Ginnastica':
+          labelPagina='Scienze motorie sportive'
+          break;
+        case 'Religione':
+          labelPagina='Religione cattolica'
         default:
           break;
       }

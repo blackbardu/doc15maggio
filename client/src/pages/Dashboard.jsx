@@ -11,6 +11,39 @@ const Dashboard = () => {
   const [filePresence, setFilePresence] = useState({});
   const { myArray } = useContext(MyArrayContext);
   const filteredArray = myArray.filter((item) => item !== 'coordinatore');
+  console.log(filteredArray)
+
+  var arrayPagina = []
+
+  for (var i = 0; i < myArray.length; i++) {
+    var labelPagina = myArray[i].charAt(0).toUpperCase() + myArray[i].slice(1);
+  
+    switch (labelPagina) {
+      case 'Sistemi':
+        labelPagina = 'Sistemi e reti';
+        break;
+      case 'Italiano':
+        labelPagina = 'Lingua e letteratura italiana';
+        break;
+      case 'Tpsit':
+        labelPagina = 'Tecnologie e progettazione di sistemi informatici e di telecomunicazioni';
+        break;
+      case 'Gpoi':
+        labelPagina = `Gestione progetto, organizzazione d'impresa`;
+        break;
+      case 'Ginnastica':
+        labelPagina = 'Scienze motorie sportive';
+        break;
+      case 'Religione':
+        labelPagina = 'Religione cattolica';
+        break;
+      default:
+        break;
+    }
+  
+    arrayPagina[i] = labelPagina;
+  }
+  
 
   const renderErrorMessage = (filename) => {
     return (
@@ -82,11 +115,11 @@ const Dashboard = () => {
       {myArray.map((item, index) => (
         <div key={index}>
           {item === 'coordinatore' ? (
-            <h3>{item.charAt(0).toUpperCase() + item.slice(1)}</h3>
+            <h3>{arrayPagina[index]}</h3>
           ) : (
             <div>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <h3>{item.charAt(0).toUpperCase() + item.slice(1)}</h3>
+                <h3>{arrayPagina[index]}</h3>
                 {isBothFilesPresent(item) && (
                   <>
                     <Button
