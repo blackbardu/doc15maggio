@@ -191,6 +191,17 @@ io.on('connection', (socket) => {
       socket.emit('filedownload', { filename: `output_${pageName}.pdf` });
     });
 
+    socket.on('save_table', ({ filename, message }) => {
+      fs.writeFile(filename, message, (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log('File created successfully.');
+        socket.emit('table_saved', { filename });
+      });
+    });
+
     socket.on('disconnect', () => {
         console.log(`User disconnected: ${socket.id}`);
       });
