@@ -129,6 +129,20 @@ main {
   border-bottom: #fff 0.5px solid;
 }
 
+.table-cell-wrap {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.cell-text textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  resize: none;
+  overflow: hidden;
+}
+
 .bars {
   display: flex;
   justify-content: center;
