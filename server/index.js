@@ -118,6 +118,9 @@ io.on('connection', (socket) => {
           case "Profilo professionale in uscita":
               newFileName='profiloprofessionale'+filename
               break
+          case "Informazioni sul curricolo":
+              newFileName='curricolo'+filename
+              break
           case "Elenco allievi":
               newFileName='allievi'+filename
               break

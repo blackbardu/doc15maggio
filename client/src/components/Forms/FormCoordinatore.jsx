@@ -131,6 +131,8 @@ const Form = ({ pageName }) => {
                                     className="mt-2">
                                     <Dropdown.Item eventKey="Profilo professionale in uscita" href="#">Profilo professionele in uscita</Dropdown.Item>
                                     <Dropdown.Divider />
+                                    <Dropdown.Item eventKey="Informazioni sul curricolo" href="#">Informazioni sul curricolo</Dropdown.Item>
+                                    <Dropdown.Divider />
                                     <Dropdown.Item eventKey="Elenco allievi" href="#">Elenco allievi</Dropdown.Item>
                                     <Dropdown.Divider />
                                     <Dropdown.Item eventKey="Elenco candidati esterni" href="#">Elenco candidati esterni</Dropdown.Item>
@@ -186,90 +188,96 @@ const Form = ({ pageName }) => {
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="1">
+                            <Accordion.Header><strong>Informazioni sul curricolo</strong></Accordion.Header>
+                            <Accordion.Body>
+                            {renderParagraphs(fileContent[`curricolo.txt`])}
+                            </Accordion.Body>
+                        </Accordion.Item>
+                        <Accordion.Item eventKey="2">
                             <Accordion.Header><strong>Elenco allievi</strong></Accordion.Header>
                             <Accordion.Body>
                                 {renderParagraphs(fileContent[`allievi.txt`])}
                                 </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="2">
+                        <Accordion.Item eventKey="3">
                             <Accordion.Header><strong>Elenco candidati esterni</strong></Accordion.Header>
                             <Accordion.Body>
                             {renderParagraphs(fileContent[`esterni.txt`])}
                             </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="3">
+                        <Accordion.Item eventKey="4">
                             <Accordion.Header><strong>Relazione sintetica</strong></Accordion.Header>
                             <Accordion.Body>
                                 {renderParagraphs(fileContent[`relazionesintetica.txt`])}
                                 </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="4">
+                        <Accordion.Item eventKey="5">
                             <Accordion.Header><strong>Attività di recupero o interventi di sostegno</strong></Accordion.Header>
                             <Accordion.Body>
                             {renderParagraphs(fileContent[`recuperosostegno.txt`])}
                             </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="5">
+                        <Accordion.Item eventKey="6">
                             <Accordion.Header><strong>PCTO</strong></Accordion.Header>
                             <Accordion.Body>
                                 {renderParagraphs(fileContent[`pcto.txt`])}
                                 </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="6">
+                        <Accordion.Item eventKey="7">
                             <Accordion.Header><strong>CLIL</strong></Accordion.Header>
                             <Accordion.Body>
                             {renderParagraphs(fileContent[`clil.txt`])}
                             </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="7">
+                        <Accordion.Item eventKey="8">
                             <Accordion.Header><strong>Attività e progetti attinenti a Educazione Civica</strong></Accordion.Header>
                             <Accordion.Body>
                                 {renderParagraphs(fileContent[`educazionecivica.txt`])}
                                 </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="8">
+                        <Accordion.Item eventKey="9">
                             <Accordion.Header><strong>Altre attività di arricchimento dell'offerta formativa</strong></Accordion.Header>
                             <Accordion.Body>
                             {renderParagraphs(fileContent[`altro.txt`])}
                             </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="9">
+                        <Accordion.Item eventKey="10">
                             <Accordion.Header><strong>Attività aggiuntive previste dal PTOF</strong></Accordion.Header>
                             <Accordion.Body>
                                 {renderParagraphs(fileContent[`ptof.txt`])}
                                 </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="10">
+                        <Accordion.Item eventKey="11">
                             <Accordion.Header><strong>Eventuali attività specifiche di orientamento</strong></Accordion.Header>
                             <Accordion.Body>
                             {renderParagraphs(fileContent[`orientamento.txt`])}
                             </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="11">
+                        <Accordion.Item eventKey="12">
                             <Accordion.Header><strong>Criteri di valutazione nel triennio</strong></Accordion.Header>
                             <Accordion.Body>
                                 {renderParagraphs(fileContent[`triennio.txt`])}
                                 </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="12">
+                        <Accordion.Item eventKey="13">
                             <Accordion.Header><strong>Criterio di attribuzione credito scolastico e formativo</strong></Accordion.Header>
                             <Accordion.Body>
                             {renderParagraphs(fileContent[`credito.txt`])}
                             </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="13">
+                        <Accordion.Item eventKey="14">
                             <Accordion.Header><strong>Simulazione delle prove scritte, date di svolgimento e criteri di valutazione</strong></Accordion.Header>
                             <Accordion.Body>
                                 {renderParagraphs(fileContent[`simscritti.txt`])}
                                 </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="14">
+                        <Accordion.Item eventKey="15">
                             <Accordion.Header><strong>Prima e seconda prova d'esame scritta</strong></Accordion.Header>
                             <Accordion.Body>
                             {renderParagraphs(fileContent[`scritti.txt`])}
                             </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="15">
+                        <Accordion.Item eventKey="16">
                             <Accordion.Header><strong>Prova d'esame orale</strong></Accordion.Header>
                             <Accordion.Body>
                                 {renderParagraphs(fileContent[`orale.txt`])}
