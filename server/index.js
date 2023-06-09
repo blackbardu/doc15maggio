@@ -177,7 +177,8 @@ io.on('connection', (socket) => {
               return;
             }
             console.log('Text file created successfully.');
-            io.emit('filecreato');
+            io.emit('filecreato_coordinatore');
+            readFilesCoordinatore(socket)
           });
         } else {
           fs.appendFile(newFileName, `\n${message}`, (err) => {
@@ -186,7 +187,8 @@ io.on('connection', (socket) => {
               return;
             }
             console.log('Text file updated successfully.');
-            io.emit('filecreato');
+            io.emit('filecreato_coordinatore');
+            readFilesCoordinatore(socket)
           });
         }
       
@@ -221,7 +223,31 @@ io.on('connection', (socket) => {
         
       });
 
+      socket.on('get_files_coordinatore',() => {
+        
+
+        readFilesCoordinatore(socket)
+
+        const filePrefixes = ['profiloprofessionale', 'curricolo', 'allievi', 'esterni', 'relazionesintetica', 'recuperosostegno', 'pcto', 'clil', 'educazionecivica', 'altro', 'ptof', 'orientamento', 'triennio', 'credito', 'simscritti', 'scritti', 'orale'];
+    
+        filePrefixes.forEach((prefix) => {
+        fs.readFile(`${prefix}.txt`, 'utf8', (err, content) => {
+            if (err) {
+            console.error(err);
+            return;
+            }
+            const fileInfo = {
+            filename: `${prefix}.txt`,
+            content: content,
+            };
+            socket.emit('filecontent_coordinatore', fileInfo);
+        });
+        });
+        
+      });
+
     readFiles(socket);
+    readFilesCoordinatore(socket)
       
 
     socket.on('dotted_files', (myArray) =>{
@@ -365,6 +391,27 @@ function readFiles(socket) {
           content: paragraphs,
         };
         socket.emit('filecontent', fileInfo);
+      });
+    });
+  }
+
+  function readFilesCoordinatore(socket) {
+    fs.readdir(__dirname, (err, files) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+  
+      const textFiles = files.filter((file) => file.endsWith('.txt'));
+  
+      textFiles.forEach((file) => {
+        const content = fs.readFileSync(file, 'utf8');
+        const paragraphs = content.split('\n\n');
+        const fileInfo = {
+          filename: file,
+          content: paragraphs,
+        };
+        socket.emit('filecontent_coordinatore', fileInfo);
       });
     });
   }

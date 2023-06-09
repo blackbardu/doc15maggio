@@ -10,7 +10,7 @@ import { MyArrayContext } from '../MyArrayContext';
 
 const socket = io.connect('http://localhost:3001')
 
-const Form = ({ pageName }) => {
+const Form = () => {
     
     
     const [isChecked, setIsChecked] = useState(false);
@@ -58,43 +58,36 @@ const Form = ({ pageName }) => {
     };
     
     useEffect(() => {
-        socket.on('filecreato', () => {
-            setShowModal(true);
-            socket.emit('get_files', {pageName});
-        })
-
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
           }
-
-
-        socket.on('filecontent', (fileInfo) => {
+        socket.on('filecreato_coordinatore', () => {
+        setShowModal(true);
+        socket.emit('get_files_coordinatore');
+        });
+    
+        socket.on('filecontent_coordinatore', (fileInfo) => {
             setFileContent((prevFileContent) => ({
-              ...prevFileContent,
-              [fileInfo.filename]: fileInfo.content,
-            }));
-          });
-
-
-        socket.emit('get_files', {pageName});
-
-        socket.on('filecontent', (fileInfo) => {
-          setFilePresence((prevFilePresence) => ({
+                ...prevFileContent,
+                [fileInfo.filename]: fileInfo.content,
+              }));
+    
+        setFilePresence((prevFilePresence) => ({
             ...prevFilePresence,
-            [fileInfo.filename]: !!fileInfo.content, 
-          }));
+            [fileInfo.filename]: !!fileInfo.content,
+        }));
         });
 
         return () => {
-            socket.off('filecreato');
-            socket.off('filecontent');
+            socket.off('filecreato_coordinatore');
+            socket.off('filecontent_coordinatore');
           };
-    }, [textareaValue], [socket])
+    }, [textareaValue, socket])
 
     const renderParagraphs = (paragraphs) => {
-        if (!paragraphs || paragraphs.length === 0) {
-          return null; 
+        if (!Array.isArray(paragraphs) || paragraphs.length === 0) {
+          return null;
         }
       
         return paragraphs.map((paragraph, index) => (
@@ -105,7 +98,7 @@ const Form = ({ pageName }) => {
           </React.Fragment>
         ));
       };
-
+      
     /*useEffect(() => {
         socket.on('receive_message', (data) => {
             setMessageReceived(data.message)

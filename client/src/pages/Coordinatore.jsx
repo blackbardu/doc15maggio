@@ -7,7 +7,7 @@ const Coordinatore = () => {
     <div>
       <div className="title">Coordinatore</div>
       <NavLink to="/tabelle" className="btn btn-success">Compila le tabelle</NavLink>
-      <FormCoordinatore pageName="coordinatore"></FormCoordinatore>
+      <FormCoordinatore></FormCoordinatore>
     </div>
   );
 };
