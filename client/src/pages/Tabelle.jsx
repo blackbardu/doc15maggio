@@ -40,6 +40,13 @@ const Tabelle = () => {
         return initialData;
     });
 
+    const [votiData, setVotiData] = useState(() => {
+        const initialData = Array.from({ length: 8 }, () =>
+          Array.from({ length: 3 }, () => '')
+        );
+        return initialData;
+      });
+
     useEffect(() => {
         const fetchData = async () => {
         const consiglioResponse = await fetchTableData('tabella_consiglio.txt');
@@ -50,6 +57,9 @@ const Tabelle = () => {
 
         const docentiResponse = await fetchTableData('tabella_docenti.txt');
         setDocentiData(docentiResponse);
+
+        const votiResponse = await fetchTableData('tabella_voti.txt');
+        setVotiData(votiResponse);
 
         const progettiResponse = await fetchTableData('tabella_progetti.txt');
         setProgettiData(progettiResponse);
@@ -67,28 +77,34 @@ const Tabelle = () => {
     };
   
     const handleConsiglioCellChange = (e, rowIndex, colIndex) => {
-      const newData = [...consiglioData];
-      newData[rowIndex][colIndex] = e.target.innerHTML;
-      setConsiglioData(newData);
-    };
-  
-    const handleStoriaClasseCellChange = (e, rowIndex, colIndex) => {
-      const newData = [...storiaClasseData];
-      newData[rowIndex][colIndex] = e.target.innerHTML;
-      setStoriaClasseData(newData);
-    };
-  
-    const handleDocentiCellChange = (e, rowIndex, colIndex) => {
-      const newData = [...docentiData];
-      newData[rowIndex][colIndex] = e.target.innerHTML;
-      setDocentiData(newData);
-    };
-  
-    const handleProgettiCellChange = (e, rowIndex, colIndex) => {
-      const newData = [...progettiData];
-      newData[rowIndex][colIndex] = e.target.innerHTML;
-      setProgettiData(newData);
-    };
+        const newData = [...consiglioData];
+        newData[rowIndex][colIndex] = e.target.value;
+        setConsiglioData(newData);
+      };
+      
+      const handleVotiCellChange = (e, rowIndex, colIndex) => {
+        const newData = [...votiData];
+        newData[rowIndex][colIndex] = e.target.value;
+        setVotiData(newData);
+      };
+      
+      const handleStoriaClasseCellChange = (e, rowIndex, colIndex) => {
+        const newData = [...storiaClasseData];
+        newData[rowIndex][colIndex] = e.target.value;
+        setStoriaClasseData(newData);
+      };
+      
+      const handleDocentiCellChange = (e, rowIndex, colIndex) => {
+        const newData = [...docentiData];
+        newData[rowIndex][colIndex] = e.target.value;
+        setDocentiData(newData);
+      };
+      
+      const handleProgettiCellChange = (e, rowIndex, colIndex) => {
+        const newData = [...progettiData];
+        newData[rowIndex][colIndex] = e.target.value;
+        setProgettiData(newData);
+      };
   
     const tableHeaders = [
       'Disciplina del piano di studi',
@@ -122,14 +138,47 @@ const Tabelle = () => {
         <div className="row">
           <div className="col">
             <Accordion defaultActiveKey="0">
-                <AccordionItem eventKey='0'>
-                    <AccordionHeader>
-                        <strong>Criteri di valutazione</strong>
-                    </AccordionHeader>
-                    <AccordionBody>
-
-                    </AccordionBody>
-                </AccordionItem>
+            <Accordion.Item eventKey="0">
+                <Accordion.Header>
+                    <strong>Criteri di valutazione</strong>
+                </Accordion.Header>
+                <Accordion.Body>
+                    <Table striped bordered>
+                    <thead>
+                        <tr>
+                        <th>Voto</th>
+                        <th>Giudizio</th>
+                        <th>Descrizione</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {votiData.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                          {row.map((cell, colIndex) => (
+                            <td key={colIndex}>
+                              <div className="cell-text">
+                              <div
+                                className="cell-text"
+                                contentEditable="true"
+                                onChange={(e) => handleVotiCellChange(e, rowIndex, colIndex)}
+                                dangerouslySetInnerHTML={{ __html: cell }}
+                                />
+                              </div>
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                    </Table>
+                    <button
+                    type="submit"
+                    onClick={() => saveData('tabella_voti.txt', votiData)}
+                    className="btn btn-success"
+                    >
+                    Salva dati
+                    </button>
+                </Accordion.Body>
+                </Accordion.Item>
               <Accordion.Item eventKey="1">
                 <Accordion.Header>
                   <strong>Composizione del Consiglio di Classe</strong>
@@ -152,7 +201,7 @@ const Tabelle = () => {
                               <div
                                 className="cell-text"
                                 contentEditable="true"
-                                onInput={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
+                                onChange={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
                                 dangerouslySetInnerHTML={{ __html: cell }}
                                 />
                               </div>
@@ -199,7 +248,7 @@ const Tabelle = () => {
                               <div
                                 className="cell-text"
                                 contentEditable="true"
-                                onInput={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
+                                onChange={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
                                 dangerouslySetInnerHTML={{ __html: cell }}
                                 />
                               </div>
@@ -249,7 +298,7 @@ const Tabelle = () => {
                                 <div
                                     className="cell-text"
                                     contentEditable="true"
-                                    onInput={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
+                                    onChange={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
                                     dangerouslySetInnerHTML={{ __html: cell }}
                                     />
                                 </div>
@@ -294,7 +343,7 @@ const Tabelle = () => {
                                 <div
                                   className="cell-text"
                                   contentEditable="true"
-                                  onInput={(e) =>
+                                  onChange={(e) =>
                                     handleProgettiCellChange(
                                       e,
                                       rowIndex,
