@@ -104,6 +104,91 @@ io.on('connection', (socket) => {
         
     })
 
+    socket.on('send_message_coordinatore', (data) => {
+      const {filename, message, isChecked, selectedValue} = data
+      console.log(`Nome file: ${filename}`);
+      console.log(`Info: ${message}`);
+      console.log(`Check: ${isChecked}`);
+      console.log(`Titolo: ${selectedValue}`);
+
+      var newFileName = "";
+
+      switch(selectedValue)
+      {
+          case "Profilo professionale in uscita":
+              newFileName='profiloprofessionale'+filename
+              break
+          case "Elenco allievi":
+              newFileName='allievi'+filename
+              break
+          case "Elenco candidati esterni":
+              newFileName='esterni'+filename
+              break
+          case "Relazione sintetica":
+              newFileName='relazionesintetica'+filename
+              break
+          case "Attività di recupero o interventi di sostegno":
+              newFileName='recuperosostegno'+filename
+              break
+          case "PCTO":
+              newFileName='pcto'+filename
+              break
+          case "CLIL":
+              newFileName='clil'+filename
+              break
+          case "Attività e progetti attinenti a Educazione Civica":
+              newFileName='educazionecivica'+filename
+              break
+          case "Altre attività di arricchimento dell'offerta formativa":
+              newFileName='altro'+filename
+              break
+          case "Attività aggiuntive previste dal PTOF":
+              newFileName='ptof'+filename
+              break
+          case "Eventuali attività specifiche di orientamento":
+              newFileName='orientamento'+filename
+              break
+          case "Criteri di valutazione nel triennio":
+              newFileName='triennio'+filename
+              break
+          case "Criterio di attribuzione credito scolastico e formativo":
+              newFileName='credito'+filename
+              break
+          case "Simulazione delle prove scritte, date di svolgimento e criteri di valutazione":
+              newFileName='simscritti'+filename
+              break
+          case "Prima e seconda prova d'esame scritta":
+              newFileName='scritti'+filename
+              break
+          case "Prova d'esame orale":
+              newFileName='orale'+filename
+              break         
+
+
+      }
+
+      if (isChecked) {
+          fs.writeFile(newFileName, message, (err) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            console.log('Text file created successfully.');
+            io.emit('filecreato');
+          });
+        } else {
+          fs.appendFile(newFileName, `\n${message}`, (err) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            console.log('Text file updated successfully.');
+            io.emit('filecreato');
+          });
+        }
+      
+  })
+
     socket.on('get_files', (pageName) => {
         
 

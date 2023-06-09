@@ -3,10 +3,10 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import io from 'socket.io-client'
 import {useEffect, useState, useRef } from 'react';
-import SuccessModal from './Modals/SuccessModal';
+import SuccessModal from '../Modals/SuccessModal';
 import React from 'react';
 import { useContext } from 'react';
-import { MyArrayContext } from '../components/MyArrayContext';
+import { MyArrayContext } from '../MyArrayContext';
 
 const socket = io.connect('http://localhost:3001')
 
