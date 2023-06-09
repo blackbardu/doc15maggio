@@ -1,77 +1,119 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
+import AccordionBody from 'react-bootstrap/esm/AccordionBody';
+import AccordionHeader from 'react-bootstrap/esm/AccordionHeader';
+import AccordionItem from 'react-bootstrap/esm/AccordionItem';
 import io from 'socket.io-client';
 
 const socket = io('http://localhost:3001');
 
 const Tabelle = () => {
-  const numRows = 21;
-  const numCols = 4;
+    const numRows = 21;
+    const numCols = 4;
 
-  const [consiglioData, setConsiglioData] = useState(() => {
-    const initialData = Array.from({ length: 10 }, () =>
-      Array.from({ length: 4 }, () => '')
-    );
-    return initialData;
-  });
+    const [consiglioData, setConsiglioData] = useState(() => {
+        const initialData = Array.from({ length: 10 }, () =>
+        Array.from({ length: 4 }, () => '')
+        );
+        return initialData;
+    });
 
-  const [storiaClasseData, setStoriaClasseData] = useState(() => {
-    const initialData = Array.from({ length: 3 }, () =>
-      Array.from({ length: 5 }, () => '')
-    );
-    return initialData;
-  });
+    const [storiaClasseData, setStoriaClasseData] = useState(() => {
+        const initialData = Array.from({ length: 3 }, () =>
+        Array.from({ length: 5 }, () => '')
+        );
+        return initialData;
+    });
 
-  const [docentiData, setDocentiData] = useState(() => {
-    const initialData = Array.from({ length: numRows }, () =>
-      Array.from({ length: numCols }, () => '')
-    );
-    return initialData;
-  });
+    const [docentiData, setDocentiData] = useState(() => {
+        const initialData = Array.from({ length: numRows }, () =>
+        Array.from({ length: numCols }, () => '')
+        );
+        return initialData;
+    });
 
-  const [progettiData, setProgettiData] = useState(() => {
-    const initialData = Array.from({ length: 9 }, () =>
-      Array.from({ length: 4 }, () => '')
-    );
-    return initialData;
-  });
+    const [progettiData, setProgettiData] = useState(() => {
+        const initialData = Array.from({ length: 9 }, () =>
+        Array.from({ length: 4 }, () => '')
+        );
+        return initialData;
+    });
 
-  const handleConsiglioCellChange = (e, rowIndex, colIndex) => {
-    const newData = [...consiglioData];
-    newData[rowIndex][colIndex] = e.target.value;
-    setConsiglioData(newData);
-  };
+    useEffect(() => {
+        const fetchData = async () => {
+        const consiglioResponse = await fetchTableData('tabella_consiglio.txt');
+        setConsiglioData(consiglioResponse);
 
-  const handleStoriaClasseCellChange = (e, rowIndex, colIndex) => {
-    const newData = [...storiaClasseData];
-    newData[rowIndex][colIndex] = e.target.value;
-    setStoriaClasseData(newData);
-  };
+        const storiaClasseResponse = await fetchTableData('tabella_storiaclasse.txt');
+        setStoriaClasseData(storiaClasseResponse);
 
-  const handleDocentiCellChange = (e, rowIndex, colIndex) => {
-    const newData = [...docentiData];
-    newData[rowIndex][colIndex] = e.target.value;
-    setDocentiData(newData);
-  };
+        const docentiResponse = await fetchTableData('tabella_docenti.txt');
+        setDocentiData(docentiResponse);
 
-  const handleProgettiCellChange = (e, rowIndex, colIndex) => {
-    const newData = [...progettiData];
-    newData[rowIndex][colIndex] = e.target.value;
-    setProgettiData(newData);
-  };
+        const progettiResponse = await fetchTableData('tabella_progetti.txt');
+        setProgettiData(progettiResponse);
+        };
 
-  const tableHeaders = [
-    'Disciplina del piano di studi',
-    'Ore svolte',
-    'Docente',
-    'Firma di approvazione',
-  ];
+        fetchData();
+    }, []);
 
-  const saveData = (filename, tableData) => {
-    const tableContent = tableData.map((row) => row.join('\t')).join('\n');
-    socket.emit('save_table', { filename, message: tableContent });
-  };
+    const fetchTableData = async (filename) => {
+        return new Promise((resolve, reject) => {
+        socket.emit('get_table', { filename }, (response) => {
+            resolve(response.data);
+        });
+        });
+    };
+  
+    const handleConsiglioCellChange = (e, rowIndex, colIndex) => {
+      const newData = [...consiglioData];
+      newData[rowIndex][colIndex] = e.target.innerHTML;
+      setConsiglioData(newData);
+    };
+  
+    const handleStoriaClasseCellChange = (e, rowIndex, colIndex) => {
+      const newData = [...storiaClasseData];
+      newData[rowIndex][colIndex] = e.target.innerHTML;
+      setStoriaClasseData(newData);
+    };
+  
+    const handleDocentiCellChange = (e, rowIndex, colIndex) => {
+      const newData = [...docentiData];
+      newData[rowIndex][colIndex] = e.target.innerHTML;
+      setDocentiData(newData);
+    };
+  
+    const handleProgettiCellChange = (e, rowIndex, colIndex) => {
+      const newData = [...progettiData];
+      newData[rowIndex][colIndex] = e.target.innerHTML;
+      setProgettiData(newData);
+    };
+  
+    const tableHeaders = [
+      'Disciplina del piano di studi',
+      'Ore svolte',
+      'Docente',
+      'Firma di approvazione',
+    ];
+  
+    const saveData = (filename, tableData) => {
+      const tableContent = tableData.map((row) => row.join('\t')).join('\n');
+      socket.emit('save_table', { filename, message: tableContent });
+    };
+  
+    const addProgettiRow = () => {
+      const newRow = Array.from({ length: numCols }, () => '');
+      setProgettiData((prevData) => [...prevData, newRow]);
+    };
+
+    const removeProgettiRow = (index) => {
+        setProgettiData((prevData) => {
+          const newData = [...prevData];
+          newData.splice(index, 1);
+          return newData;
+        });
+      };
 
   return (
     <div>
@@ -80,12 +122,14 @@ const Tabelle = () => {
         <div className="row">
           <div className="col">
             <Accordion defaultActiveKey="0">
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>
-                  <strong>Quadro orario</strong>
-                </Accordion.Header>
-                <Accordion.Body>tab1</Accordion.Body>
-              </Accordion.Item>
+                <AccordionItem eventKey='0'>
+                    <AccordionHeader>
+                        <strong>Criteri di valutazione</strong>
+                    </AccordionHeader>
+                    <AccordionBody>
+
+                    </AccordionBody>
+                </AccordionItem>
               <Accordion.Item eventKey="1">
                 <Accordion.Header>
                   <strong>Composizione del Consiglio di Classe</strong>
@@ -105,15 +149,11 @@ const Tabelle = () => {
                           {row.map((cell, colIndex) => (
                             <td key={colIndex}>
                               <div className="cell-text">
-                                <textarea
-                                  value={cell}
-                                  onChange={(e) =>
-                                    handleConsiglioCellChange(
-                                      e,
-                                      rowIndex,
-                                      colIndex
-                                    )
-                                  }
+                              <div
+                                className="cell-text"
+                                contentEditable="true"
+                                onInput={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
+                                dangerouslySetInnerHTML={{ __html: cell }}
                                 />
                               </div>
                             </td>
@@ -156,15 +196,11 @@ const Tabelle = () => {
                           {row.map((cell, colIndex) => (
                             <td key={colIndex}>
                               <div className="cell-text">
-                                <textarea
-                                  value={cell}
-                                  onChange={(e) =>
-                                    handleStoriaClasseCellChange(
-                                      e,
-                                      rowIndex,
-                                      colIndex
-                                    )
-                                  }
+                              <div
+                                className="cell-text"
+                                contentEditable="true"
+                                onInput={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
+                                dangerouslySetInnerHTML={{ __html: cell }}
                                 />
                               </div>
                             </td>
@@ -210,16 +246,12 @@ const Tabelle = () => {
                             {row.map((cell, colIndex) => (
                               <td key={colIndex}>
                                 <div className="cell-text">
-                                  <textarea
-                                    value={cell}
-                                    onChange={(e) =>
-                                      handleDocentiCellChange(
-                                        e,
-                                        rowIndex,
-                                        colIndex
-                                      )
-                                    }
-                                  />
+                                <div
+                                    className="cell-text"
+                                    contentEditable="true"
+                                    onInput={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
+                                    dangerouslySetInnerHTML={{ __html: cell }}
+                                    />
                                 </div>
                               </td>
                             ))}
@@ -259,15 +291,17 @@ const Tabelle = () => {
                           {row.map((cell, colIndex) => (
                             <td key={colIndex}>
                               <div className="cell-text">
-                                <textarea
-                                  value={cell}
-                                  onChange={(e) =>
+                                <div
+                                  className="cell-text"
+                                  contentEditable="true"
+                                  onInput={(e) =>
                                     handleProgettiCellChange(
                                       e,
                                       rowIndex,
                                       colIndex
                                     )
                                   }
+                                  dangerouslySetInnerHTML={{ __html: cell }}
                                 />
                               </div>
                             </td>
@@ -276,15 +310,32 @@ const Tabelle = () => {
                       ))}
                     </tbody>
                   </Table>
-                  <button
-                    type="submit"
-                    onClick={() =>
-                      saveData('tabella_progetti.txt', progettiData)
-                    }
-                    className="btn btn-success"
-                  >
-                    Salva dati
-                  </button>
+                  <div className="button-row">
+                    <button
+                        type="button"
+                        className="btn btn-outline-secondary add-row-button"
+                        onClick={addProgettiRow}
+                    >
+                        + | Aggiungi riga
+                    </button>
+                    ㅤ
+                    <button
+                        type="button"
+                        className="btn btn-outline-secondary remove-row-button"
+                        onClick={() => removeProgettiRow(progettiData.length - 1)}
+                        >
+                        - | Rimuovi riga
+                    </button>
+                    <br></br>
+                    <br></br>
+                    <button
+                        type="submit"
+                        onClick={() => saveData('tabella_progetti.txt', progettiData)}
+                        className="btn btn-success"
+                    >
+                        Salva dati
+                    </button>
+                    </div>
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>

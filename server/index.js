@@ -23,6 +23,17 @@ app.get('/download/:filename', (req, res) => {
   });
 });
 
+const parseTableData = (tableString) => {
+  const rows = tableString.split('\n');
+  const tableData = [];
+
+  for (let row of rows) {
+    const cells = row.split('\t');
+    tableData.push(cells);
+  }
+
+  return tableData;
+};
 
 
 const io = new Server(server, {
@@ -199,6 +210,18 @@ io.on('connection', (socket) => {
         }
         console.log('File created successfully.');
         socket.emit('table_saved', { filename });
+      });
+    });
+
+    socket.on('get_table', ({ filename }, callback) => {
+      fs.readFile(filename, 'utf8', (err, data) => {
+        if (err) {
+          console.error(err);
+          callback({ success: false, data: [] });
+        } else {
+          const tableData = parseTableData(data);
+          callback({ success: true, data: tableData });
+        }
       });
     });
 
