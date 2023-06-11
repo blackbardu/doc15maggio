@@ -178,7 +178,7 @@ io.on('connection', (socket) => {
             }
             console.log('Text file created successfully.');
             io.emit('filecreato_coordinatore');
-            readFilesCoordinatore(socket)
+            readFiles(socket)
           });
         } else {
           fs.appendFile(newFileName, `\n${message}`, (err) => {
@@ -188,7 +188,7 @@ io.on('connection', (socket) => {
             }
             console.log('Text file updated successfully.');
             io.emit('filecreato_coordinatore');
-            readFilesCoordinatore(socket)
+            readFiles(socket)
           });
         }
       
@@ -226,7 +226,7 @@ io.on('connection', (socket) => {
       socket.on('get_files_coordinatore',() => {
         
 
-        readFilesCoordinatore(socket)
+        readFiles(socket)
 
         const filePrefixes = ['profiloprofessionale', 'curricolo', 'allievi', 'esterni', 'relazionesintetica', 'recuperosostegno', 'pcto', 'clil', 'educazionecivica', 'altro', 'ptof', 'orientamento', 'triennio', 'credito', 'simscritti', 'scritti', 'orale'];
     
@@ -247,7 +247,6 @@ io.on('connection', (socket) => {
       });
 
     readFiles(socket);
-    readFilesCoordinatore(socket)
       
 
     socket.on('dotted_files', (myArray) =>{
@@ -395,26 +394,7 @@ function readFiles(socket) {
     });
   }
 
-  function readFilesCoordinatore(socket) {
-    fs.readdir(__dirname, (err, files) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
   
-      const textFiles = files.filter((file) => file.endsWith('.txt'));
-  
-      textFiles.forEach((file) => {
-        const content = fs.readFileSync(file, 'utf8');
-        const paragraphs = content.split('\n\n');
-        const fileInfo = {
-          filename: file,
-          content: paragraphs,
-        };
-        socket.emit('filecontent_coordinatore', fileInfo);
-      });
-    });
-  }
 
 server.listen(3001, () => {
     console.log('server in esecuzione sulla porta 3001')

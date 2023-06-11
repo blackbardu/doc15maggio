@@ -22,6 +22,7 @@ const Form = () => {
 
     const [fileContent, setFileContent] = useState({});
 
+
     
     
 
@@ -62,32 +63,38 @@ const Form = () => {
             textareaRef.current.style.height = 'auto';
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
           }
+
         socket.on('filecreato_coordinatore', () => {
         setShowModal(true);
         socket.emit('get_files_coordinatore');
         });
     
-        socket.on('filecontent_coordinatore', (fileInfo) => {
+        socket.on('filecontent', (fileInfo) => {
             setFileContent((prevFileContent) => ({
-                ...prevFileContent,
-                [fileInfo.filename]: fileInfo.content,
-              }));
-    
-        setFilePresence((prevFilePresence) => ({
+              ...prevFileContent,
+              [fileInfo.filename]: fileInfo.content,
+            }));
+          });
+
+
+        socket.emit('get_files_coordinatore');
+
+        socket.on('filecontent', (fileInfo) => {
+          setFilePresence((prevFilePresence) => ({
             ...prevFilePresence,
-            [fileInfo.filename]: !!fileInfo.content,
-        }));
+            [fileInfo.filename]: !!fileInfo.content, 
+          }));
         });
 
         return () => {
             socket.off('filecreato_coordinatore');
-            socket.off('filecontent_coordinatore');
+            socket.off('filecontent');
           };
     }, [textareaValue, socket])
 
     const renderParagraphs = (paragraphs) => {
-        if (!Array.isArray(paragraphs) || paragraphs.length === 0) {
-          return null;
+        if (!paragraphs || paragraphs.length === 0) {
+          return null; 
         }
       
         return paragraphs.map((paragraph, index) => (
@@ -98,6 +105,8 @@ const Form = () => {
           </React.Fragment>
         ));
       };
+
+
       
     /*useEffect(() => {
         socket.on('receive_message', (data) => {
@@ -207,7 +216,7 @@ const Form = () => {
                         <Accordion.Item eventKey="5">
                             <Accordion.Header><strong>Attività di recupero o interventi di sostegno</strong></Accordion.Header>
                             <Accordion.Body>
-                            {renderParagraphs(fileContent[`recuperosostegno.txt`])}
+                                {renderParagraphs(fileContent[`recuperosostegno.txt`])}
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="6">
