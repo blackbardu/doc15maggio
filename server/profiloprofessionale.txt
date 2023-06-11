@@ -1,1 +1,9 @@
-prova profilo
+A conclusione del percorso quinquennale il Diplomato nell‘indirizzo "Informatica e Telecomunicazioni" consegue i risultati di apprendimento di seguito specificati in termini di competenze.
+1. Scegliere dispositivi e strumenti in base alle loro caratteristiche funzionali.
+2. Descrivere e comparare il funzionamento di dispositivi e strumenti elettronici e di 
+telecomunicazione.
+3. Gestire progetti secondo le procedure e gli standard previsti dai sistemi aziendali di 
+gestione della qualità e della sicurezza.
+4. Gestire processi produttivi correlati a funzioni aziendali.
+5. Configurare, installare e gestire sistemi di elaborazione dati e reti.
+6. Sviluppare applicazioni informatiche per reti locali o servizi a distanza.

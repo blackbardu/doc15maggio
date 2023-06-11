@@ -115,6 +115,9 @@ io.on('connection', (socket) => {
 
       switch(selectedValue)
       {
+          case "Memorandum per i candidati":
+            newFileName='memorandum'+filename
+            break
           case "Profilo professionale in uscita":
               newFileName='profiloprofessionale'+filename
               break
@@ -228,7 +231,7 @@ io.on('connection', (socket) => {
 
         readFiles(socket)
 
-        const filePrefixes = ['profiloprofessionale', 'curricolo', 'allievi', 'esterni', 'relazionesintetica', 'recuperosostegno', 'pcto', 'clil', 'educazionecivica', 'altro', 'ptof', 'orientamento', 'triennio', 'credito', 'simscritti', 'scritti', 'orale'];
+        const filePrefixes = ['memorandum', 'profiloprofessionale', 'curricolo', 'allievi', 'esterni', 'relazionesintetica', 'recuperosostegno', 'pcto', 'clil', 'educazionecivica', 'altro', 'ptof', 'orientamento', 'triennio', 'credito', 'simscritti', 'scritti', 'orale'];
     
         filePrefixes.forEach((prefix) => {
         fs.readFile(`${prefix}.txt`, 'utf8', (err, content) => {

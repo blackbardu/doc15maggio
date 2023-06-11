@@ -1,2 +1,1 @@
-funziona?
-funziona??
+Il modulo CLIL è stato affrontato dal Prof. Tonetti Tiberio dal 27/ 04/23 al 4/05 /2023 per un totale di 6 ore. Titolo del progetto " Views, Triggers, and Stored Procedures ".
