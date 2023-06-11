@@ -318,28 +318,453 @@ io.on('connection', (socket) => {
       socket.emit('filedownload', { filename: `output_${pageName}.pdf` });
     });
 
-    socket.on('save_table', ({ filename, message }) => {
-      fs.writeFile(filename, message, (err) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        console.log('File created successfully.');
-        socket.emit('table_saved', { filename });
-      });
-    });
+    socket.on('document_creation',() =>{
+      const programmasvoltoFileItaliano = fs.readFileSync(`programmasvolto_italiano.txt`, 'utf8');
+      const relazionefinaleFileItaliano = fs.readFileSync(`relazionefinale_italiano.txt`, 'utf8');
 
-    socket.on('get_table', ({ filename }, callback) => {
-      fs.readFile(filename, 'utf8', (err, data) => {
-        if (err) {
-          console.error(err);
-          callback({ success: false, data: [] });
-        } else {
-          const tableData = parseTableData(data);
-          callback({ success: true, data: tableData });
-        }
-      });
-    });
+      const programmasvoltoFileStoria = fs.readFileSync(`programmasvolto_storia.txt`, 'utf8');
+      const relazionefinaleFileStoria = fs.readFileSync(`relazionefinale_storia.txt`, 'utf8');
+
+      const programmasvoltoFileMatematica = fs.readFileSync(`programmasvolto_matematica.txt`, 'utf8');
+      const relazionefinaleFileMatematica = fs.readFileSync(`relazionefinale_matematica.txt`, 'utf8');
+
+      const programmasvoltoFileInglese = fs.readFileSync(`programmasvolto_inglese.txt`, 'utf8');
+      const relazionefinaleFileInglese = fs.readFileSync(`relazionefinale_inglese.txt`, 'utf8');
+
+      const programmasvoltoFileTpsit = fs.readFileSync(`programmasvolto_tpsit.txt`, 'utf8');
+      const relazionefinaleFileTpsit = fs.readFileSync(`relazionefinale_tpsit.txt`, 'utf8');
+
+      const programmasvoltoFileGpoi = fs.readFileSync(`programmasvolto_gpoi.txt`, 'utf8');
+      const relazionefinaleFileGpoi = fs.readFileSync(`relazionefinale_gpoi.txt`, 'utf8');
+
+      const programmasvoltoFileInformatica = fs.readFileSync(`programmasvolto_informatica.txt`, 'utf8');
+      const relazionefinaleFileInformatica = fs.readFileSync(`relazionefinale_informatica.txt`, 'utf8');
+
+      const programmasvoltoFileSistemi = fs.readFileSync(`programmasvolto_sistemi.txt`, 'utf8');
+      const relazionefinaleFileSistemi = fs.readFileSync(`relazionefinale_sistemi.txt`, 'utf8');
+
+      const programmasvoltoFileReligione = fs.readFileSync(`programmasvolto_religione.txt`, 'utf8');
+      const relazionefinaleFileReligione = fs.readFileSync(`relazionefinale_religione.txt`, 'utf8');
+
+      const programmasvoltoFileGinnastica = fs.readFileSync(`programmasvolto_ginnastica.txt`, 'utf8');
+      const relazionefinaleFileGinnastica = fs.readFileSync(`relazionefinale_ginnastica.txt`, 'utf8');
+
+      const provaEsameoraleFile = fs.readFileSync(`orale.txt`, 'utf8');
+      const provaEsamescrittoFile = fs.readFileSync(`scritti.txt`, 'utf8');
+
+      const simprovaScrittaFile = fs.readFileSync(`simscritti.txt`, 'utf8');
+
+      const valutazioneFile = fs.readFileSync(`triennio.txt`, 'utf8');
+      const creditiFile = fs.readFileSync(`credito.txt`, 'utf8');
+
+      const attivitarecuperoFile = fs.readFileSync(`recuperosostegno.txt`, 'utf8');
+      const pctoFile = fs.readFileSync(`pcto.txt`, 'utf8');
+      const clilFile = fs.readFileSync(`clil.txt`, 'utf8');
+      const educazionecivicaFile = fs.readFileSync(`educazionecivica.txt`, 'utf8');
+      const altreattivitaFile = fs.readFileSync(`altro.txt`, 'utf8');
+      const ptofpofFile = fs.readFileSync(`ptof.txt`, 'utf8');
+      const orientamentoFile = fs.readFileSync(`orientamento.txt`, 'utf8');
+
+      const allieviFile = fs.readFileSync(`allievi.txt`, 'utf8');
+      const esterniFile = fs.readFileSync(`esterni.txt`, 'utf8');
+      const relazioneFile = fs.readFileSync(`relazionesintetica.txt`, 'utf8');
+
+      const profiloFile = fs.readFileSync(`profiloprofessionale.txt`, 'utf8');
+
+      const memorandumFile = fs.readFileSync(`memorandum.txt`, 'utf8');
+
+
+      const docDefinition = {
+        content: [
+          {
+            // to treat a paragraph as a bulleted list, set an array of items under the ul key
+            ol: [
+              {text: 'Memorandum per i candidati', margin: [0, 5, 0, 5]},
+              {
+                stack: [
+                  'Informazioni sul curricolo',
+                  {
+                    ul: [
+                      'Profilo professionale in uscita',
+                      'Quadro orario',
+                    ],
+                  }
+                ],
+                margin: [0, 5, 0, 5]
+              },
+              {
+                stack: [
+                  'Presentazione della classe',
+                  {
+                    ul: [
+                      'Composizione del consiglio di classe',
+                      'Elenco allievi',
+                      'Elenco candidati esterni',
+                      'Storia della classe e continuità didattica nel triennio',
+                      'Relazione sintetica',
+                    ],
+                  }
+                ],
+                margin: [0, 5, 0, 5]
+              },
+              {
+                stack: [
+                  'Indicazione generale attività didattica e progetti',
+                  {
+                    ul: [
+                      'Attività di recupero o interventi di sostegno',
+                      `Percorsi per le competenze trasversali e l'orientamento (PCTO)`,
+                      'CLIL: attività e modalità di insegnamento',
+                      'Attività e progetti attinenti a "Educazione civica"',
+                      `Altre attività di arricchimento dell'offerta formativa`,
+                      `Attività aggiuntive pomeridiane previste dal PTOF d'Istituto e progetto dal POF di classe`,
+                      'Eventuali attività specifiche di orientamento',
+                    ],
+                  }
+                ],
+                margin: [0, 5, 0, 5]
+              },  
+              {
+                stack: [
+                  'Criteri di valutazione',
+                  {
+                    ul: [
+                      'Criteri di valutazione nel triennio',
+                      'Criteri di attribuzione crediti scolastici e formativi',
+                    ],
+                  }
+                ],
+                margin: [0, 5, 0, 5]
+              },
+              {
+                stack: [
+                  'Simulazione delle prove scritte',
+                  {
+                    ul: [
+                      'Simulazione delle prove scritte, date di svolgimento e criteri di valutazione',
+                    ],
+                  }
+                ],
+                margin: [0, 5, 0, 5]
+              },
+              {
+                stack: [
+                  `Criteri di valutazione per l'esame`,
+                  {
+                    ul: [
+                      'Prima e seconda prova d‟esame scritta',
+                      'Prova d‟esame orale',
+                    ],
+                  }
+                ],
+                margin: [0, 5, 0, 5]
+              },  
+              {
+                stack: [
+                  'Contenuti delle singolo discipline (Programmi disciplinari)',
+                  {
+                    ul: [
+                      {
+                        stack: [
+                          'Lingua e letteratura italiana',
+                          {
+                            ul: [
+                              'Relazione finale',
+                              `Programma svolto`,
+                            ],
+                          }
+                        ],
+                        margin: [0, 5, 0, 5]
+                      }, 
+                      {
+                        stack: [
+                          'Storia',
+                          {
+                            ul: [
+                              'Relazione finale',
+                              `Programma svolto`,
+                            ],
+                          }
+                        ],
+                        margin: [0, 5, 0, 5]
+                      },  
+                      {
+                        stack: [
+                          'Inglese',
+                          {
+                            ul: [
+                              'Relazione finale',
+                              `Programma svolto`,
+                            ],
+                          }
+                        ],
+                        margin: [0, 5, 0, 5]
+                      }, 
+                      {
+                        stack: [
+                          'Matematica',
+                          {
+                            ul: [
+                              'Relazione finale',
+                              `Programma svolto`,
+                            ],
+                          }
+                        ],
+                        margin: [0, 5, 0, 5]
+                      },  
+                      {
+                        stack: [
+                          'Informatica',
+                          {
+                            ul: [
+                              'Relazione finale',
+                              `Programma svolto`,
+                            ],
+                          }
+                        ],
+                        margin: [0, 5, 0, 5]
+                      }, 
+                      {
+                        stack: [
+                          'Sistemi e reti',
+                          {
+                            ul: [
+                              'Relazione finale',
+                              `Programma svolto`,
+                            ],
+                          }
+                        ],
+                        margin: [0, 5, 0, 5]
+                      },  
+                      {
+                        stack: [
+                          'Tecnologie e progettazione di sistemi informatici e di telecomunicazioni',
+                          {
+                            ul: [
+                              'Relazione finale',
+                              `Programma svolto`,
+                            ],
+                          }
+                        ],
+                        margin: [0, 5, 0, 5]
+                      }, 
+                      {
+                        stack: [
+                          `Gestione progetto, organizzazione d'impresa`,
+                          {
+                            ul: [
+                              'Relazione finale',
+                              `Programma svolto`,
+                            ],
+                          }
+                        ],
+                        margin: [0, 5, 0, 5]
+                      },  
+                      {
+                        stack: [
+                          'Scienze motorie sportive',
+                          {
+                            ul: [
+                              'Relazione finale',
+                              `Programma svolto`,
+                            ],
+                          }
+                        ],
+                        margin: [0, 5, 0, 5]
+                      }, 
+                      {
+                        stack: [
+                          `Religione cattolica`,
+                          {
+                            ul: [
+                              'Relazione finale',
+                              `Programma svolto`,
+                            ],
+                          }
+                        ],
+                        margin: [0, 5, 0, 5]
+                      }, 
+                    ],
+                  }
+                ],
+              },              
+              
+              
+              
+              
+              
+              
+
+            ],
+            pageBreak: 'after'
+          },
+
+          { text: `Memorandum per i candidati`, style: 'title'},
+          { text: memorandumFile },
+
+          { text: `Informazioni sul curricolo`, style: 'title'},
+
+          { text: `▪ Profilo professionale in uscita`, style: 'header' },
+          { text: profiloFile },
+          { text: `▪ Quadro orario`, style: 'header' },
+          {table: {
+            headerRows: 1,
+            widths: [ '*', '*', 100, '*', 'auto' ],
+    
+            body: [
+              [ { text: 'Materia', bold: true },{ text: 'III^', bold: true },{ text: 'IV^', bold: true },{ text: 'V', bold: true },{ text: 'Prove', bold: true }],
+              [ 'Religione cattolica/Attività Alternative', '1', '1', '1','-' ],
+              [ 'Scienze motorie sportive', '2', '2', '2','OP' ],
+              [ 'Lingua e letteratura italiana', '4', '4', '4','SO' ],
+              [ 'Storia', '2', '2', '2','O' ],
+              [ 'Lingua straniera (Inglese)', '3', '3', '3','O' ],
+              [ 'Matematica', '3', '3', '3','SO' ],
+              [ 'Complementi di matematica', '1', '1', '-','SO' ],
+              [ 'Informatica', '3 (3)', '3 (3)', '3 (3)','SOP' ],
+              [ 'Sistemi e reti', '2 (2)', '2 (2)', '1 (3)','SOP' ],
+              [ 'Tecnologie e progettazione di sistemi informatici e di telecomunicazioni', '2 (1)', '1 (2)', '1 (3)','GOP' ],
+              [  `Gestione progetto, organizzazione d'impresa`, '-', '-', '2 (1)','SO' ],
+              [ 'Telecomunicazioni', '1 (2)', '1 (2)', '-','SOP' ],
+              [ 'Totale ore settimanali', '24 (8)', '23 (9)', '22 (10)','-' ]
+            ]
+          }},
+
+          { text: `Presentazione della classe`, style: 'title'},
+
+          { text: `▪ Composizione del Consiglio di Classe`, style: 'header' },
+          { text: `▪ Elenco allievi`, style: 'header' },
+          { text: allieviFile },
+          { text: `▪ Elenco candidati esterni`, style: 'header' },
+          { text: esterniFile },
+          { text: `▪ Storia della classe e continuità didattica nel triennio`, style: 'header' },
+          { text: `▪ Relazione sintetica`, style: 'header' },
+          { text: relazioneFile },
+
+          { text: `Indicazioni generali attività didattica e progetti`, style: 'title'},  
+
+          { text: `▪ Attività di recupero o interventi di sostegno`, style: 'header' },
+          { text: attivitarecuperoFile },
+          { text: `▪ Percorsi per le competenze trasversali e l‟orientamento (PCTO)`, style: 'header' },
+          { text: pctoFile },
+          { text: `▪ CLIL: attività e modalità di insegnamento`, style: 'header' },
+          { text: clilFile },
+          { text: `▪ Attività e progetti attinenti a “Educazione civica”`, style: 'header' },
+          { text: educazionecivicaFile },
+          { text: `▪ Altre attività di arricchimento dell‟offerta formativa`, style: 'header' },
+          { text: altreattivitaFile },
+          { text: `▪ Attività aggiuntive pomeridiane previste dal PTOF d‟Istituto e progetto dal POF di classe`, style: 'header' },
+          { text: ptofpofFile },
+          { text: `▪ Eventuali attività specifiche di orientamento`, style: 'header' },
+          { text: orientamentoFile },
+
+          { text: `Criteri di valutazione`, style: 'title'},     
+
+          { text: `▪ Criteri di valutazione nel triennio`, style: 'header' },
+          { text: valutazioneFile },
+
+          { text: `▪ Criteri di attribuzione crediti scolastici e formativi`, style: 'header' },
+          { text: creditiFile },
+
+          { text: `Simulazione delle prove scritte`, style: 'title'},  
+          { text: 'In accordo col Regolamento interno delle attività di preparazione all‘esame di Stato, discusso ed approvato dal Collegio dei docenti che ha recepito il Decreto Ministeriale del 20 novembre  2000, sono state programmate le attività di simulazione delle prove scritte come di seguito  indicato. '},
+
+          { text: `▪ Simulazione delle prove scritte, date di svolgimento e criteri di valutazione`, style: 'header' },
+          { text: simprovaScrittaFile },
+
+          { text: `Criteri di valutazione per l'esame`, style: 'title'},     
+
+          { text: `▪ Prima e seconda prova d'esame scritta`, style: 'header' },
+          { text: provaEsamescrittoFile },
+
+          { text: `▪ Prova d'esame orale`, style: 'header' },
+          { text: provaEsameoraleFile },
+
+          { text: 'Contributi delle singole discipline (Programmi disciplinari)', style: 'title'},          
+
+          { text: '▪ Lingua e letteratura italiana', style: 'header' },
+          { text: 'Relazione finale', style: 'header' },
+          { text: relazionefinaleFileItaliano },
+          { text: 'Programma svolto', style: 'header' },
+          { text: programmasvoltoFileItaliano },
+
+          { text: '▪ Storia', style: 'header' },
+          { text: 'Relazione finale', style: 'header' },
+          { text: relazionefinaleFileStoria },
+          { text: 'Programma svolto', style: 'header' },
+          { text: programmasvoltoFileStoria },
+
+          { text: '▪ Inglese', style: 'header' },
+          { text: 'Relazione finale', style: 'header' },
+          { text: relazionefinaleFileInglese },
+          { text: 'Programma svolto', style: 'header' },
+          { text: programmasvoltoFileInglese },
+          
+          { text: '▪ Matematica', style: 'header' },
+          { text: 'Relazione finale', style: 'header' },
+          { text: relazionefinaleFileMatematica },
+          { text: 'Programma svolto', style: 'header' },
+          { text: programmasvoltoFileMatematica },
+
+          { text: '▪ Informatica', style: 'header' },
+          { text: 'Relazione finale', style: 'header' },
+          { text: relazionefinaleFileInformatica },
+          { text: 'Programma svolto', style: 'header' },
+          { text: programmasvoltoFileInformatica },
+
+          { text: '▪ Sistemi e reti', style: 'header' },
+          { text: 'Relazione finale', style: 'header' },
+          { text: relazionefinaleFileSistemi },
+          { text: 'Programma svolto', style: 'header' },
+          { text: programmasvoltoFileSistemi },
+
+          { text: '▪ Tecnologie e progettazione di sistemi informatici e di telecomunicazioni', style: 'header' },
+          { text: 'Relazione finale', style: 'header' },
+          { text: relazionefinaleFileTpsit },
+          { text: 'Programma svolto', style: 'header' },
+          { text: programmasvoltoFileTpsit },
+
+          { text: `▪ Gestione progetto, organizzazione d'impresa`, style: 'header' },
+          { text: 'Relazione finale', style: 'header' },
+          { text: relazionefinaleFileGpoi },
+          { text: 'Programma svolto', style: 'header' },
+          { text: programmasvoltoFileGpoi },
+
+          { text: '▪ Scienze motorie sportive', style: 'header' },
+          { text: 'Relazione finale', style: 'header' },
+          { text: relazionefinaleFileGinnastica },
+          { text: 'Programma svolto', style: 'header' },
+          { text: programmasvoltoFileGinnastica },
+
+          { text: '▪ Religione cattolica', style: 'header' },
+          { text: 'Relazione finale', style: 'header' },
+          { text: relazionefinaleFileReligione },
+          { text: 'Programma svolto', style: 'header' },
+          { text: programmasvoltoFileReligione },
+        ],
+        styles: {
+          header: {
+            fontSize: 14,
+            bold: true,
+            margin: [0, 10, 0, 5],
+          },
+          title: {
+            fontSize: 20,
+            bold: true,
+            margin: [0, 10, 0, 5],
+          },
+        },
+      };
+
+      const pdfDoc = printer.createPdfKitDocument(docDefinition);
+      const filePath = path.join(__dirname, `output_materie.pdf`);
+    
+      pdfDoc.pipe(fs.createWriteStream(filePath));
+      pdfDoc.end();
+    
+      socket.emit('filedownload_completo', { filename: `output_materie.pdf` });
+
+
+    })
 
     socket.on('disconnect', () => {
         console.log(`User disconnected: ${socket.id}`);

@@ -1,0 +1,87 @@
+Libro di testo:
+Bergamini, Trifone, Barozzi – Matematica.verde (Zanichelli):
+vol. 4A - vol. 4B - vol. 5 - vol. epsilon
+RIPASSO
+Lo studio completo di funzione:
+con particolare riferimento alla ricerca degli asintoti, dei punti stazionari (massimi, minimi, flessi a tangente orizzontale), dei punti di non derivabilità (punti angolosi, cuspidi, flessi a tangente verticale) e delle tangenti nei vari punti della funzione.
+L‘integrazione:
+Integrali indefiniti (per parti, per sostituzione, composti)
+Integrale definito di una funzione continua
+Conoscere e saper applicare il teorema fondamentale del calcolo integrale
+Saper applicare il calcolo integrale per calcolare aree
+Saper calcolare i volumi di semplici solidi di rotazione attorno all‘asse x e attorno all‘asse y. Il calcolo dei volumi con il metodo delle sezioni.
+INTEGRAZIONE
+Integrali indefiniti: integrazione delle funzioni razionali fratte
+Teorema del valor medio di una funzione
+Concetto di integrale improprio
+Saper calcolare un integrale improprio
+CALCOLO COMBINATORIO E PROBABILITA‘
+Calcolo combinatorio
+Raggruppamenti
+Disposizioni: disposizioni semplici, disposizioni con ripetizione
+Permutazioni: permutazioni semplici, la funzione fattoriale, permutazioni con ripetizione
+Combinazioni: combinazioni semplici, coefficienti binomiali, combinazioni con ripetizione
+Probabilità
+Eventi, concezione classica della probabilità, probabilità e calcolo combinatorio
+Somma logica di eventi: eventi unione e intersezione, eventi compatibili e incompatibili
+Probabilità condizionata: eventi dipendenti e indipendenti
+Prodotto logico di eventi: problema delle prove ripetute (Bernoulli)
+Teorema di Bayes
+Concezione statistica della probabilità:
+Concezione soggettiva della probabilità
+Impostazione assiomatica della probabilità (cenni)
+EQUAZIONI DIFFERENZIALI
+Definizione di equazione differenziale e di ordine dell‘equazione
+Saper riconoscere un‘equazione differenziale e saperne determinare il suo ordine
+Integrale generale, integrale particolare
+Conoscere la differenza fra soluzione generale e soluzione particolare di un‘equazione differenziale
+Equazioni differenziali del primo ordine a variabili separate o separabili
+Il problema di Cauchy
+Saper riconoscere un‘equazione a variabili separabili
+Saper risolvere un‘ equazione lineare a variabili separabili
+Equazioni differenziali lineari del primo ordine omogenee e non omogenee
+Saper riconoscere un‘equazione differenziale lineare del primo ordine
+Equazione di Bernoulli
+Equazioni differenziali del secondo ordine, lineari, a coefficienti costanti omogenee
+Saper risolvere un‘equazione differenziale del secondo ordine, lineare, a coefficienti costanti e 
+omogenea nei vari casi
+Equazioni differenziali del secondo ordine, lineari, a coefficienti costanti, non omogenee con f(x) polinomio o esponenziale o espressione con seno e/o coseno
+Saper risolvere un‘equazione differenziale del secondo ordine, lineare, a coefficienti costanti e non omogenea nei casi in cui f(x) sia un polinomio, una funzione esponenziale o un'espressione in seno e/o coseno
+Saper determinare la soluzione particolare di un‘equazione differenziale.
+
+SUCCESSIONI
+Successioni numeriche: rappresentazioni delle successioni, successioni monotone, successioni limitate e illimitate.
+Progressioni aritmetiche: calcolo del termine an di una progressione aritmetica, somma di due termini equidistanti dagli estremi, somma di termini consecutivi di una progressione aritmetica.
+Progressioni geometriche: calcolo del termine an di una progressione geometrica, prodotto di due termini equidistanti dagli estremi, somma di termini consecutivi di una progressione geometrica.
+
+SERIE NUMERICHE
+Che cos‘è una serie numerica
+Saper determinare, in casi semplici, gli elementi di una serie dato il termine generale e viceversa
+Serie convergenti, divergenti, indeterminate
+Saper determinare in alcuni casi semplici la ridotta n-esima e la somma di una serie
+Saper calcolare la ridotta n-esima di una serie aritmetica
+Saper calcolare la ridotta n-esima di una serie geometrica e la sua somma quando è convergente
+Le proprietà delle serie
+Il criterio generale di convergenza
+Le serie a termini positivi
+Saper determinare il carattere di una serie a segno costante applicando i criteri del confronto, del confronto asintotico, del rapporto e della radice
+Le serie a termini di segno qualunque
+Saper applicare il criteri di Leibniz per le serie a segno alterno
+Saper determinare se la convergenza di una serie è semplice o assoluta
+
+SERIE DI FUNZIONI E SERIE DI POTENZE (da svolgere entro il termine delle lezioni)
+Le successioni di funzioni
+Che cos‘è una serie di funzioni
+La convergenza puntuale
+Saper definire una serie di funzioni e saper determinare l‘insieme di convergenza di una funzione.
+La convergenza uniforme di una serie di funzioni: approccio grafico e criterio di Weierstrass per la convergenza totale
+Che cos‘è una serie di potenze
+Le serie di potenze convergenti
+L‘intervallo di convergenza e la determinazione del raggio di convergenza: teorema del rapporto e teorema della radice.
+Le formule di Taylor e di Maclaurin
+Lo sviluppo in serie
+Sapere sviluppare una funzione reale in serie di Taylor e di Maclaurin
+Applicazioni degli sviluppi in serie
+Saper calcolare i limiti utilizzando lo sviluppo in serie.
+L‘insegnante
+Emanuele Parini

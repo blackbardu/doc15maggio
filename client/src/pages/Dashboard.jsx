@@ -80,6 +80,10 @@ const Dashboard = () => {
       alert(filename);
     });
 
+    socket.on('filedownload_completo', ({ filename }) => {
+      alert(filename);
+    });
+
     return () => {
       socket.off('filepresence');
     };
@@ -103,6 +107,12 @@ const Dashboard = () => {
     window.open(downloadUrl);
   };
 
+  const richiediDocumentoCompleto = () => {
+    socket.emit('document_creation');
+    const filename = `output_materie.pdf`;
+    downloadFile(filename);
+  };
+
   const richiediDocumento = (pageName) => {
     socket.emit('downloadFile', { pageName });
     const filename = `output_${pageName}.pdf`;
@@ -115,7 +125,15 @@ const Dashboard = () => {
       {myArray.map((item, index) => (
         <div key={index}>
           {item === 'coordinatore' ? (
-            <h3>{arrayPagina[index]}</h3>
+            <div>
+              <h3>{arrayPagina[index]}</h3>
+              <Button
+                      variant="primary"
+                      onClick={() => richiediDocumentoCompleto()}
+                      style={{ marginLeft: '10px' }}
+                    ></Button>
+            </div>
+            
           ) : (
             <div>
               <div style={{ display: 'flex', alignItems: 'center' }}>

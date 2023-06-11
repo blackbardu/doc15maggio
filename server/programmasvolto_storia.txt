@@ -1,1 +1,64 @@
-programma svolto storia
+classe VF
+Anno Scolastico 2022- 2023
+Docente: Paola Gasperoni 
+Libro di testo: Noi di ieri, Noi di domani
+(il Novecento e l‟età attuale)
+Autore: Alessandro Barbero, Chiara Frugoni, Carla Sclarandis
+Casa editrice: Zanichelli 
+
+Ripasso delle problematiche legate all‟unificazione d'Italia:
+- Politiche risolutive adottate dalla Destra e dalla Sinistra storica
+La belle époque:
+- La nascita della società di massa
+L‟età Giolittiana:
+- La crisi di fine secolo
+- Socialisti e cattolici, nuovi protagonisti della vita politica italiana
+- Politica interna di Giolitti
+- Il decollo dell‘industria e la questione meridionale
+- La politica coloniale e la crisi del sistema giolittiano
+La Prima guerra mondiale:
+- L‘Europa alla vigilia della guerra
+- L‘Europa in guerra
+- L‘Italia entra in guerra
+- La guerra di posizione
+- La svolta nel conflitto e la sconfitta degli imperi centrali
+- I trattati di pace
+La Rivoluzione russa:
+- Il crollo dell‘impero zarista
+- La Rivoluzione d‘ottobre
+- Il nuovo regime bolscevico
+- La Russia tra guerra civile e comunismo di guerra
+- La nuova politica economica e la nascita dell‘Urss
+- L‘unione Sovietica di Stalin
+- Consolidamento dello stato totalitario
+Il dopoguerra italiano e l'avvento del regime fascista:
+- La crisi del dopoguerra
+- Il biennio rosso: la nascita di nuovi partiti
+- La transizione dallo stato liberale allo stato fascista
+- L‘affermazione della dittatura
+- La costruzione del consenso
+- La politica economica
+- La politica estera
+- Le leggi razziali
+Gli Stati Uniti e la crisi del '29:
+- Il ruolo degli Stati Uniti nella politica europea ela politica isolazionista
+- Il Boom economico
+- La crisi del ventinove: dagli USA al mondo
+- Roosevelt e il new deal
+La crisi della Germania repubblicana e il Nazismo:
+- La nascita della Repubblica di Weimar
+- Hitler e la nascita del Nazionalsocialismo
+- Il Nazismo al potere
+- L‘ideologia nazista e l‘antisemitismo
+- Il riarmo della Germania nazista
+- E l‘alleanza con l‘Italia e il Giappone
+- I primi passi della Germania verso la guerra
+Spagna e guerra civile spagnola
+La Seconda guerra mondiale:
+- Lo scoppio della guerra
+- L‘attacco alla Francia e all‘Inghilterra
+- La guerra parallela dell‘Italia e l‘invasione dell‘Unione Sovietica
+- La svolta nella guerra
+- La guerra in Italia
+- La vittoria degli alleati
+- Verso un nuovo ordine mondiale

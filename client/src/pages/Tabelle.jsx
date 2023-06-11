@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Table } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import AccordionBody from 'react-bootstrap/esm/AccordionBody';
@@ -10,7 +10,7 @@ const socket = io('http://localhost:3001');
 
 const Tabelle = () => {
     const numRows = 21;
-    const numCols = 4;
+    const numCols = 4;  
 
     const [consiglioData, setConsiglioData] = useState(() => {
         const initialData = Array.from({ length: 10 }, () =>
@@ -45,78 +45,14 @@ const Tabelle = () => {
           Array.from({ length: 3 }, () => '')
         );
         return initialData;
-      });
-
-    useEffect(() => {
-        const fetchData = async () => {
-        const consiglioResponse = await fetchTableData('tabella_consiglio.txt');
-        setConsiglioData(consiglioResponse);
-
-        const storiaClasseResponse = await fetchTableData('tabella_storiaclasse.txt');
-        setStoriaClasseData(storiaClasseResponse);
-
-        const docentiResponse = await fetchTableData('tabella_docenti.txt');
-        setDocentiData(docentiResponse);
-
-        const votiResponse = await fetchTableData('tabella_voti.txt');
-        setVotiData(votiResponse);
-
-        const progettiResponse = await fetchTableData('tabella_progetti.txt');
-        setProgettiData(progettiResponse);
-        };
-
-        fetchData();
-    }, []);
-
-    const fetchTableData = async (filename) => {
-        return new Promise((resolve, reject) => {
-        socket.emit('get_table', { filename }, (response) => {
-            resolve(response.data);
-        });
-        });
-    };
-  
-    const handleConsiglioCellChange = (e, rowIndex, colIndex) => {
-        const newData = [...consiglioData];
-        newData[rowIndex][colIndex] = e.target.value;
-        setConsiglioData(newData);
-      };
-      
-      const handleVotiCellChange = (e, rowIndex, colIndex) => {
-        const newData = [...votiData];
-        newData[rowIndex][colIndex] = e.target.value;
-        setVotiData(newData);
-      };
-      
-      const handleStoriaClasseCellChange = (e, rowIndex, colIndex) => {
-        const newData = [...storiaClasseData];
-        newData[rowIndex][colIndex] = e.target.value;
-        setStoriaClasseData(newData);
-      };
-      
-      const handleDocentiCellChange = (e, rowIndex, colIndex) => {
-        const newData = [...docentiData];
-        newData[rowIndex][colIndex] = e.target.value;
-        setDocentiData(newData);
-      };
-      
-      const handleProgettiCellChange = (e, rowIndex, colIndex) => {
-        const newData = [...progettiData];
-        newData[rowIndex][colIndex] = e.target.value;
-        setProgettiData(newData);
-      };
+      });   
   
     const tableHeaders = [
       'Disciplina del piano di studi',
       'Ore svolte',
       'Docente',
       'Firma di approvazione',
-    ];
-  
-    const saveData = (filename, tableData) => {
-      const tableContent = tableData.map((row) => row.join('\t')).join('\n');
-      socket.emit('save_table', { filename, message: tableContent });
-    };
+    ];   
   
     const addProgettiRow = () => {
       const newRow = Array.from({ length: numCols }, () => '');
@@ -156,14 +92,7 @@ const Tabelle = () => {
                         <tr key={rowIndex}>
                           {row.map((cell, colIndex) => (
                             <td key={colIndex}>
-                              <div className="cell-text">
-                              <div
-                                className="cell-text"
-                                contentEditable="true"
-                                onChange={(e) => handleVotiCellChange(e, rowIndex, colIndex)}
-                                dangerouslySetInnerHTML={{ __html: cell }}
-                                />
-                              </div>
+                             <textarea rows="1" class="form-control" id="textareaform" row="3"></textarea>
                             </td>
                           ))}
                         </tr>
@@ -172,7 +101,6 @@ const Tabelle = () => {
                     </Table>
                     <button
                     type="submit"
-                    onClick={() => saveData('tabella_voti.txt', votiData)}
                     className="btn btn-success"
                     >
                     Salva dati
@@ -201,7 +129,6 @@ const Tabelle = () => {
                               <div
                                 className="cell-text"
                                 contentEditable="true"
-                                onChange={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
                                 dangerouslySetInnerHTML={{ __html: cell }}
                                 />
                               </div>
@@ -211,15 +138,12 @@ const Tabelle = () => {
                       ))}
                     </tbody>
                   </Table>
-                  <button
+                <button
                     type="submit"
-                    onClick={() =>
-                      saveData('tabella_consiglio.txt', consiglioData)
-                    }
                     className="btn btn-success"
-                  >
+                    >
                     Salva dati
-                  </button>
+                </button>
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey="2">
@@ -248,7 +172,6 @@ const Tabelle = () => {
                               <div
                                 className="cell-text"
                                 contentEditable="true"
-                                onChange={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
                                 dangerouslySetInnerHTML={{ __html: cell }}
                                 />
                               </div>
@@ -260,9 +183,6 @@ const Tabelle = () => {
                   </Table>
                   <button
                     type="submit"
-                    onClick={() =>
-                      saveData('tabella_storiaclasse.txt', storiaClasseData)
-                    }
                     className="btn btn-success"
                   >
                     Salva dati
@@ -298,7 +218,6 @@ const Tabelle = () => {
                                 <div
                                     className="cell-text"
                                     contentEditable="true"
-                                    onChange={(e) => handleConsiglioCellChange(e, rowIndex, colIndex)}
                                     dangerouslySetInnerHTML={{ __html: cell }}
                                     />
                                 </div>
@@ -311,9 +230,6 @@ const Tabelle = () => {
                   </Table>
                   <button
                     type="submit"
-                    onClick={() =>
-                      saveData('tabella_docenti.txt', docentiData)
-                    }
                     className="btn btn-success"
                   >
                     Salva dati
@@ -343,13 +259,6 @@ const Tabelle = () => {
                                 <div
                                   className="cell-text"
                                   contentEditable="true"
-                                  onChange={(e) =>
-                                    handleProgettiCellChange(
-                                      e,
-                                      rowIndex,
-                                      colIndex
-                                    )
-                                  }
                                   dangerouslySetInnerHTML={{ __html: cell }}
                                 />
                               </div>
@@ -379,7 +288,6 @@ const Tabelle = () => {
                     <br></br>
                     <button
                         type="submit"
-                        onClick={() => saveData('tabella_progetti.txt', progettiData)}
                         className="btn btn-success"
                     >
                         Salva dati
