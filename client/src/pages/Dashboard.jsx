@@ -13,7 +13,16 @@ const Dashboard = () => {
   const filteredArray = myArray.filter((item) => item !== 'coordinatore');
   console.log(filteredArray)
 
+
   var arrayPagina = []
+
+  const materie = ['sistemi', 'matematica', 'ginnastica', 'religione', 'tpsit', 'gpoi', 'inglese', 'informatica', 'italiano', 'storia'];
+  const coordinatorePresente = myArray.includes('coordinatore');
+
+  if (coordinatorePresente) {
+    myArray.push(...materie.filter(materia => !myArray.includes(materia)));
+  }
+  
 
   for (var i = 0; i < myArray.length; i++) {
     var labelPagina = myArray[i].charAt(0).toUpperCase() + myArray[i].slice(1);
@@ -43,7 +52,7 @@ const Dashboard = () => {
   
     arrayPagina[i] = labelPagina;
   }
-  
+ 
 
   const renderErrorMessage = (filename) => {
     return (
@@ -126,7 +135,7 @@ const Dashboard = () => {
         <div key={index}>
           {item === 'coordinatore' ? (
             <div>
-              <h3>{arrayPagina[index]}</h3>
+              {<h3>{arrayPagina[index]}</h3>}
               <Button
                       variant="primary"
                       onClick={() => richiediDocumentoCompleto()}

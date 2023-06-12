@@ -143,6 +143,16 @@ main {
   word-wrap: break-word;
 }
 
+.coordinatore-component {
+  grid-column: 2; /* Posiziona il componente nella seconda colonna */
+}
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Crea due colonne di uguale larghezza */
+  gap: 20px; /* Aggiunge uno spazio tra le colonne */
+}
+
 .bars {
   display: flex;
   justify-content: center;
