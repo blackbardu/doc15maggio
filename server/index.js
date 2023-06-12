@@ -104,6 +104,33 @@ io.on('connection', (socket) => {
         
     })
 
+    socket.on('save_table', (data) => {
+      const { filename, tableData } = data;
+      const filePath = path.join(__dirname, filename);
+      const formattedTableData = formatTableData(tableData);
+    
+      const transformedTableData = tableData.map((row) => {
+        return row.map((cell) => cell.replace(/\n/g, ' '));
+      });
+    
+      const formattedTransformedTableData = formatTableData(transformedTableData);
+    
+      fs.writeFile(filePath, formattedTransformedTableData, (err) => {
+        if (err) {
+          console.error(err);
+          socket.emit('save_table_error', { error: 'Failed to save table data.' });
+          return;
+        }
+    
+        console.log('Table data saved successfully.');
+        socket.emit('save_table_success', { message: 'Table data saved successfully.' });
+        
+      });
+
+      
+    });
+    
+
     socket.on('send_message_coordinatore', (data) => {
       const {filename, message, isChecked, selectedValue} = data
       console.log(`Nome file: ${filename}`);
@@ -258,6 +285,27 @@ io.on('connection', (socket) => {
 
     })
 
+    socket.on('get_table', () => {
+      const tableFilenames = ['tabella_voti.txt', 'tabella_docenti.txt', 'tabella_consiglio.txt', 'tabella_progetti.txt', 'tabella_storiaclasse.txt'];
+    
+      tableFilenames.forEach((filename) => {
+        const filePath = path.join(__dirname, filename);
+    
+        fs.readFile(filePath, 'utf8', (err, content) => {
+          if (err) {
+            console.error(err);
+            socket.emit('table_error', { error: `Failed to read table data for ${filename}.` });
+            return;
+          }
+    
+          const tableData = parseTableData(content);
+          console.log(tableData)
+          socket.emit('table_data', { filename, data: tableData });
+        });
+      });
+    });
+    
+
     socket.on('downloadFile', ({ pageName }) => {
       const programmasvoltoFile = `programmasvolto_${pageName}.txt`;
       const relazionefinaleFile = `relazionefinale_${pageName}.txt`;
@@ -372,6 +420,24 @@ io.on('connection', (socket) => {
       const profiloFile = fs.readFileSync(`profiloprofessionale.txt`, 'utf8');
 
       const memorandumFile = fs.readFileSync(`memorandum.txt`, 'utf8');
+
+      const tabellaVotiFile = fs.readFileSync('tabella_voti.txt', 'utf8');
+      const tabellaConsiglioFile = fs.readFileSync('tabella_consiglio.txt', 'utf8');
+      const tabellaDocentiFile = fs.readFileSync('tabella_docenti.txt', 'utf8');
+      const tabellaProgettiFile = fs.readFileSync('tabella_progetti.txt', 'utf8');
+      const tabellaStoriaFile = fs.readFileSync('tabella_storiaclasse.txt', 'utf8');
+
+      const tableVotiData = parseTableData(tabellaVotiFile)
+      const tableConsiglioData = parseTableData(tabellaConsiglioFile)
+      const tableDocentiData = parseTableData(tabellaDocentiFile)
+      const tableProgettiData = parseTableData(tabellaProgettiFile)
+      const tableStoriaData = parseTableData(tabellaStoriaFile)
+
+      tableVotiData.unshift(['Voto', 'Giudizio', 'Descrizione']);
+      tableConsiglioData.unshift(['Disciplina del piano di studi', 'Ore svolte', 'Docente','Firma di approvazione']);
+      tableDocentiData.unshift(['Materia', 'Classe', 'A.S', 'Docente']);
+      tableProgettiData.unshift(['Cognome', 'Nome', 'Titolo progetto e descrizione', 'Descrizione, discipline e contenuti']);
+      tableStoriaData.unshift(['Anno', 'Iscritti', 'Ritirati', 'Promossi','Respinti']);
 
 
       const docDefinition = {
@@ -632,11 +698,39 @@ io.on('connection', (socket) => {
           { text: `Presentazione della classe`, style: 'title'},
 
           { text: `▪ Composizione del Consiglio di Classe`, style: 'header' },
+          {
+            table: {
+              headerRows: 1,
+              widths: ['auto', 'auto', 'auto','auto'],
+              body: tableConsiglioData,
+            },
+            pageBreak: 'after'
+          },
           { text: `▪ Elenco allievi`, style: 'header' },
           { text: allieviFile },
           { text: `▪ Elenco candidati esterni`, style: 'header' },
           { text: esterniFile },
           { text: `▪ Storia della classe e continuità didattica nel triennio`, style: 'header' },
+          { text: `Storia della classe`, bold: true },
+          {
+            table: {
+              headerRows: 1,
+              widths: ['auto', 'auto', 'auto','auto','auto'],
+              body: tableStoriaData,
+            },
+            pageBreak: 'after'
+          },
+          { text: `Continuità dei docenti`, bold: true },
+          { text: `La titolarità dei docenti delle singole materie di corso, nell‘arco dei tre anni, si riassume come segue.` },
+          {
+            table: {
+              headerRows: 1,
+              widths: ['auto', 'auto', 'auto','auto'],
+              body: tableDocentiData,
+            },
+            pageBreak: 'after'
+          },
+
           { text: `▪ Relazione sintetica`, style: 'header' },
           { text: relazioneFile },
 
@@ -646,6 +740,14 @@ io.on('connection', (socket) => {
           { text: attivitarecuperoFile },
           { text: `▪ Percorsi per le competenze trasversali e l‟orientamento (PCTO)`, style: 'header' },
           { text: pctoFile },
+          {
+            table: {
+              headerRows: 1,
+              widths: ['auto', 'auto', 'auto','auto'],
+              body: tableProgettiData,
+            },
+            pageBreak: 'after'
+          },
           { text: `▪ CLIL: attività e modalità di insegnamento`, style: 'header' },
           { text: clilFile },
           { text: `▪ Attività e progetti attinenti a “Educazione civica”`, style: 'header' },
@@ -661,9 +763,34 @@ io.on('connection', (socket) => {
 
           { text: `▪ Criteri di valutazione nel triennio`, style: 'header' },
           { text: valutazioneFile },
+          {
+            table: {
+              headerRows: 1,
+              widths: [60, 'auto', 'auto'],
+              body: tableVotiData,
+            },
+            pageBreak: 'after'
+          },
 
           { text: `▪ Criteri di attribuzione crediti scolastici e formativi`, style: 'header' },
           { text: creditiFile },
+          { text: 'TABELLA A', bold: true, alignment: 'center' },
+          { text: 'CREDITO SCOLASTICO', bold: true, alignment: 'center' },
+          {table: {
+            headerRows: 1,
+            widths: [ '*', '*', 100, '*' ],
+    
+            body: [
+              [ { text: 'Media dei voti (Punti)', bold: true },{ text: 'I anno', bold: true },{ text: 'II anno', bold: true },{ text: 'III anno', bold: true }],
+              [ 'M = 6', '7-8', '8-9', '9-10'],
+              [ '6 < M ≤ 7', '8-9', '9-10', '10-11'],
+              [ '7 < M ≤ 8', '9-10', '10-11', '11-12'],
+              [ '8 < M ≤ 9', '10-11', '11-12', '13-14' ],
+              [ '9 < M ≤ 10', '11-12', '12-13', '14-15'],
+            ]
+          },
+          pageBreak: 'after'
+          },
 
           { text: `Simulazione delle prove scritte`, style: 'title'},  
           { text: 'In accordo col Regolamento interno delle attività di preparazione all‘esame di Stato, discusso ed approvato dal Collegio dei docenti che ha recepito il Decreto Ministeriale del 20 novembre  2000, sono state programmate le attività di simulazione delle prove scritte come di seguito  indicato. '},
@@ -797,7 +924,15 @@ function readDottedFiles(socket, myArray) {
   }
 }
 
+function formatTableData(tableData) {
+  let formattedData = '';
 
+  for (let row of tableData) {
+    formattedData += row.join('\t') + '\n';
+  }
+
+  return formattedData;
+}
 
 
 

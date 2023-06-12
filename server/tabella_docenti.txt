@@ -1,0 +1,36 @@
+Religione cattolica / Attività Alternative	3^	2020/21	Prof.ssa Baronio Barbara
+Religione cattolica / Attività Alternative	4^	2021/22	Prof.ssa Baronio Barbara
+Religione cattolica / Attività Alternative	5^	2022/23	Prof.ssa Baronio Barbara
+Scienze motorie e sportive	3^	2020/21	Prof.Baldelli Rodrigo
+Scienze motorie e sportive	4^	2021/22	Prof.ssa Ciccarelli Ilaria
+Scienze motorie e sportive	5^	2022/23	Prof.ssa Ciccarelli Ilaria
+Lingua e letteratura italiana	3^	2020/21	Prof.ssa Gasperoni Paola
+Lingua e letteratura italiana	4^	2021/22	Prof.ssa Gasperoni Paola
+Lingua e letteratura italiana	5^	2022/23	Prof.ssa Gasperoni Paola
+Storia	3^	2020/21	Prof.ssa Gasperoni Paola
+Storia	4^	2021/22	Prof.ssa Gasperoni Paola
+Storia	5^	2022/23	Prof.ssa Gasperoni Paola
+Lingua straniera (Inglese)	3^	2020/21	Prof. Vendraminetto Laura
+Lingua straniera (Inglese)	4^	2021/22	Prof. Vendraminetto Laura
+Lingua straniera (Inglese)	5^	2022/23	Prof. Vendraminetto Laura
+Matematica	3^	2020/21	Prof Spirito Filippo
+Matematica	4^	2021/22	Prof Parini Emanuele
+Matematica	5^	2022/23	Prof Parini Emanuele
+Complementi di matematica	3^	2020/21	Prof Spirito Filippo
+Complementi di matematica	4^	2021/22	Prof Gualtieri Thomas
+Complementi di matematica	5^	2022/23	Prof. Parini Emanuele
+Informatica	3^	2020/21	Prof. Tappi Francesco Prof. Tonetti Tiberio
+Informatica	4^	2021/22	Prof. Tappi Francesco Prof. Tonetti Tiberio
+Informatica	5^	2022/23	Prof. Tappi Francesco Prof. Tonetti Tiberio
+Sistemi e reti	3^	2020/21	Prof.Venturi Francesco Prof.ssa Emilio Palma
+Sistemi e reti	4^	2021/22	Prof. Tonetti Tiberio Prof. Veneti David
+Sistemi e reti	5^	2022/23	Prof. Cannolicchio Simone Prof. Veneti David Prof. Salutini Giorgio
+Tecnologie e progettazione di sistemi  informatici e di telecomunicazioni	3^	2020/21	Prof. Venturi Francesco Prof.ssa Emilio Palma
+Tecnologie e progettazione di sistemi  informatici e di telecomunicazioni	4^	2021/22	Prof. Melagranati Lorenzo  Prof. Cannolicchio Simone
+Tecnologie e progettazione di sistemi  informatici e di telecomunicazioni	5^	2022/23	Prof. Melagranati Lorenzo Prof. Salutini Giorgio
+Gestione progetto, organizzazione d‘impresa	/	/	/
+Gestione progetto, organizzazione  d‘impresa	/	/	/
+Gestione progetto, organizzazione  d‘impresa	5^	2022/23	Prof. Melagranati Lorenzo Prof. D‘andrea Davide
+Telecomunicazioni	3^	2020/21	Prof. Nucci Simone Prof. Tonini Tiziano
+Telecomunicazioni	4^	2021/22	Prof. Nucci Simone Prof. Tonini Tiziano
+Telecomunicazioni	/	/	/

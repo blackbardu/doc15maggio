@@ -1,0 +1,10 @@
+Lingua e letteratura italiana	103	Prof.ssa Gasperoni paola	
+Storia	45	Prof.ssa Gasperoni paola	
+Lingua straniera (Inglese) 	80	Prof.ssa Vendraminetto Laura	
+Matematica	77	Prof. Parini Emanuele	
+Informatica	170	Prof. Tappi Francesco Prof. Tonetti Tiberio	
+Sistemi e reti 	107	Prof. Veneti David Prof. Salutini Giorgio	
+Tecnologie e progettazione di sistemi informatici e di telecomunicazioni	97	Prof. Melagranati Lorenzo Prof. Salutini Giorgio	
+Gestione progetto, organizzazione d‘impresa	87	Prof. Melagranati Lorenzo Prof. D‘Andrea Davide	
+Scienze motorie sportive	41	Prof.ssa Ciccarelli Ilaria	
+Religione	27	Prof.ssa Baronio Barbara	

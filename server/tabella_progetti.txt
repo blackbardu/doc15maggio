@@ -1,0 +1,1 @@
+Barducci	Riccardo	Software dedicato alla generazione del documento 15 Maggio. Descrizione: chat con  caricamento dati tramite form o  caricamento da file lato client.  Lato server il dato è raccolto in un  report con formattazione specifica  e salvato su pdf	Informatica: algoritmo di gestione ed impianto strutturale Sistemi:protocolli livello 4 Tpsit: Socket

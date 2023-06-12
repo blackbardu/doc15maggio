@@ -1,0 +1,8 @@
+10	Eccellente	capacità espositive e di rielaborazione, ricche conoscenze, autonomia operativa
+9	Ottimo	solide conoscenze; capacità di esprimere in modo logico, corretto e con proprietà le proprie conoscenze
+8	Buono	applicazioni corrette, conoscenze sicure, articolazione espositiva chiara e corretta
+7	Discreto	comprensione delle relazioni, conoscenze precise; esposizione chiara ed appropriata
+6	Sufficiente	comprensione degli aspetti fondamentali; conoscenze essenziali, esposizione semplice e lineare
+5	Insufficiente	comprensione parziale delle relazioni; conoscenze imprecise, esposizione incerta e non appropriata
+4	Gravemente insufficiente	comprensione difficoltosa, conoscenze lacunose, esposizione stentata e scorretta
+1 - 3	Nettamente insufficiente	mancata comprensione ed applicazione; conoscenze pressoché inesistenti, esposizione non chiara e gravemente scorretta

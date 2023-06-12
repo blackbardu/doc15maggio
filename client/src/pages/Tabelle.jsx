@@ -9,7 +9,7 @@ import io from 'socket.io-client';
 const socket = io('http://localhost:3001');
 
 const Tabelle = () => {
-    const numRows = 21;
+    const numRows = 36;
     const numCols = 4;  
 
     const [consiglioData, setConsiglioData] = useState(() => {
@@ -67,8 +67,96 @@ const Tabelle = () => {
         });
       };
 
+      const handleSaveData = (tableData, filename) => {
+        const data = {
+          filename: filename,
+          tableData: tableData,
+        };
+        alert(tableData)
+        socket.emit('save_table', data);
+      };
+    
+      const handleSaveConsiglioData = () => {
+        handleSaveData(consiglioData, 'tabella_consiglio.txt');
+      };
+
+      const handleSaveStoriaClasseData = () => {
+        handleSaveData(storiaClasseData, 'tabella_storiaclasse.txt');
+      };
+
+      const handleSaveDocentiData = () => {
+        handleSaveData(docentiData, 'tabella_docenti.txt');
+      };
+
+      const handleSaveProgettiData = () => {
+        handleSaveData(progettiData, 'tabella_progetti.txt');
+      };
+
+      const handleSaveVotiData = () => {
+        handleSaveData(votiData, 'tabella_voti.txt');
+      };
+
+      const handleConsiglioCellValueChange = (rowIndex, colIndex, value) => {
+        const updatedData = [...consiglioData];
+        updatedData[rowIndex][colIndex] = value;
+        setConsiglioData(updatedData);
+      };
+
+      const handleDocentiCellValueChange = (rowIndex, colIndex, value) => {
+        const updatedData = [...docentiData];
+        updatedData[rowIndex][colIndex] = value;
+        setDocentiData(updatedData);
+      };
+
+      const handleVotiCellValueChange = (rowIndex, colIndex, value) => {
+        const updatedData = [...votiData];
+        updatedData[rowIndex][colIndex] = value;
+        setVotiData(updatedData);
+      };
+
+      const handleStoriaCellValueChange = (rowIndex, colIndex, value) => {
+        const updatedData = [...storiaClasseData];
+        updatedData[rowIndex][colIndex] = value;
+        setStoriaClasseData(updatedData);
+      };
+
+      const handleProgettiCellValueChange = (rowIndex, colIndex, value) => {
+        const updatedData = [...progettiData];
+        updatedData[rowIndex][colIndex] = value;
+        setProgettiData(updatedData);
+      };
+
+      useEffect(() => {
+        socket.on('table_data', ({ filename, data }) => {
+          switch (filename) {
+            case 'tabella_voti.txt':
+              setVotiData(data);
+              break;
+            case 'tabella_docenti.txt':
+              setDocentiData(data);
+              break;
+            case 'tabella_consiglio.txt':
+              setConsiglioData(data);
+              break;
+            case 'tabella_progetti.txt':
+              setProgettiData(data);
+              break;
+            case 'tabella_storiaclasse.txt':
+              setStoriaClasseData(data);
+              break;
+            default:
+              break;
+          }
+        });
+      
+        socket.emit('get_table');
+      }, []);
+      
+      
+
   return (
     <div>
+        
       <div className="title">Tabelle</div>
       <div className="container-fluid">
         <div className="row">
@@ -92,7 +180,11 @@ const Tabelle = () => {
                         <tr key={rowIndex}>
                           {row.map((cell, colIndex) => (
                             <td key={colIndex}>
-                             <textarea rows="1" class="form-control" id="textareaform" row="3"></textarea>
+                             <textarea rows="1" class="form-control" 
+                             id="textareaform"
+                             value={cell}
+                             onChange={(e) => handleVotiCellValueChange(rowIndex, colIndex, e.target.value)} 
+                             row="3"></textarea>
                             </td>
                           ))}
                         </tr>
@@ -102,6 +194,7 @@ const Tabelle = () => {
                     <button
                     type="submit"
                     className="btn btn-success"
+                    onClick={handleSaveVotiData}
                     >
                     Salva dati
                     </button>
@@ -125,13 +218,7 @@ const Tabelle = () => {
                         <tr key={rowIndex}>
                           {row.map((cell, colIndex) => (
                             <td key={colIndex}>
-                              <div className="cell-text">
-                              <div
-                                className="cell-text"
-                                contentEditable="true"
-                                dangerouslySetInnerHTML={{ __html: cell }}
-                                />
-                              </div>
+                              <textarea rows="1" value={cell} class="form-control" onChange={(e) => handleConsiglioCellValueChange(rowIndex, colIndex, e.target.value)}  id="textareaform" row="3"></textarea>
                             </td>
                           ))}
                         </tr>
@@ -141,6 +228,7 @@ const Tabelle = () => {
                 <button
                     type="submit"
                     className="btn btn-success"
+                    onClick={handleSaveConsiglioData}
                     >
                     Salva dati
                 </button>
@@ -168,13 +256,7 @@ const Tabelle = () => {
                         <tr key={rowIndex}>
                           {row.map((cell, colIndex) => (
                             <td key={colIndex}>
-                              <div className="cell-text">
-                              <div
-                                className="cell-text"
-                                contentEditable="true"
-                                dangerouslySetInnerHTML={{ __html: cell }}
-                                />
-                              </div>
+                              <textarea rows="1" value={cell} class="form-control" onChange={(e) => handleStoriaCellValueChange(rowIndex, colIndex, e.target.value)}  id="textareaform" row="3"></textarea>
                             </td>
                           ))}
                         </tr>
@@ -184,6 +266,7 @@ const Tabelle = () => {
                   <button
                     type="submit"
                     className="btn btn-success"
+                    onClick={handleSaveStoriaClasseData}
                   >
                     Salva dati
                   </button>
@@ -214,13 +297,7 @@ const Tabelle = () => {
                           <tr>
                             {row.map((cell, colIndex) => (
                               <td key={colIndex}>
-                                <div className="cell-text">
-                                <div
-                                    className="cell-text"
-                                    contentEditable="true"
-                                    dangerouslySetInnerHTML={{ __html: cell }}
-                                    />
-                                </div>
+                                <textarea rows="1" value={cell} class="form-control" onChange={(e) => handleDocentiCellValueChange(rowIndex, colIndex, e.target.value)}  id="textareaform" row="3"></textarea>
                               </td>
                             ))}
                           </tr>
@@ -231,6 +308,7 @@ const Tabelle = () => {
                   <button
                     type="submit"
                     className="btn btn-success"
+                    onClick={handleSaveDocentiData}
                   >
                     Salva dati
                   </button>
@@ -255,13 +333,7 @@ const Tabelle = () => {
                         <tr key={rowIndex}>
                           {row.map((cell, colIndex) => (
                             <td key={colIndex}>
-                              <div className="cell-text">
-                                <div
-                                  className="cell-text"
-                                  contentEditable="true"
-                                  dangerouslySetInnerHTML={{ __html: cell }}
-                                />
-                              </div>
+                              <textarea rows="1" value={cell} class="form-control" onChange={(e) => handleProgettiCellValueChange(rowIndex, colIndex, e.target.value)}  id="textareaform" row="3"></textarea>
                             </td>
                           ))}
                         </tr>
@@ -289,6 +361,7 @@ const Tabelle = () => {
                     <button
                         type="submit"
                         className="btn btn-success"
+                        onClick={handleSaveProgettiData}
                     >
                         Salva dati
                     </button>
