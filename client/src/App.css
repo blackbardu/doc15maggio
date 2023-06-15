@@ -143,6 +143,11 @@ main {
   word-wrap: break-word;
 }
 
+.scrollbars-container {
+  height: calc(100vh - 20px); /* Sottrae l'altezza desiderata della barra di navigazione o di altre componenti presenti nella parte superiore della pagina */
+}
+
+
 .coordinatore-component {
   grid-column: 2; /* Posiziona il componente nella seconda colonna */
 }

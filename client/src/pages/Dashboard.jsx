@@ -4,6 +4,8 @@ import { useContext } from 'react';
 import { MyArrayContext } from '../components/MyArrayContext';
 import { FaFileAlt } from 'react-icons/fa';
 import Button from 'react-bootstrap/Button';
+import { Scrollbars } from 'react-custom-scrollbars-2';
+
 
 const socket = io.connect('http://localhost:3001');
 
@@ -129,18 +131,13 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <Scrollbars className="scrollbars-container">
       <div className="title">Dashboard</div>
       {myArray.map((item, index) => (
         <div key={index}>
           {item === 'coordinatore' ? (
             <div>
-              {<h3>{arrayPagina[index]}</h3>}
-              <Button
-                      variant="primary"
-                      onClick={() => richiediDocumentoCompleto()}
-                      style={{ marginLeft: '10px' }}
-                    ></Button>
+              
             </div>
             
           ) : (
@@ -197,7 +194,7 @@ const Dashboard = () => {
           )}
         </div>
       ))}
-    </div>
+    </Scrollbars>
   );
 };
 

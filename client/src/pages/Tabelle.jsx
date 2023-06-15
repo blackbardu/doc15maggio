@@ -5,6 +5,7 @@ import AccordionBody from 'react-bootstrap/esm/AccordionBody';
 import AccordionHeader from 'react-bootstrap/esm/AccordionHeader';
 import AccordionItem from 'react-bootstrap/esm/AccordionItem';
 import io from 'socket.io-client';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 const socket = io('http://localhost:3001');
 
@@ -155,7 +156,7 @@ const Tabelle = () => {
       
 
   return (
-    <div>
+    <Scrollbars className="scrollbars-container">
         
       <div className="title">Tabelle</div>
       <div className="container-fluid">
@@ -372,7 +373,7 @@ const Tabelle = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Scrollbars>
   );
 };
 
