@@ -10,15 +10,21 @@ const FormAllegati = () => {
   const [fileList, setFileList] = useState([]);
 
   useEffect(() => {
-    socket.emit('get_file_list');
+    const token = localStorage.getItem('token');
 
-    socket.on('file_list', (fileList) => {
-      setFileList(fileList);
-    });
+    if (!token) {
+      navigate('/');
+    } else {
+      socket.emit('get_file_list');
 
-    return () => {
-      socket.off('file_list');
-    };
+      socket.on('file_list', (fileList) => {
+        setFileList(fileList);
+      });
+
+      return () => {
+        socket.off('file_list');
+      };
+    }
   }, []);
 
   const handleFileChange = (e) => {
@@ -26,8 +32,12 @@ const FormAllegati = () => {
   };
 
   const handleDeleteFile = async (fileName) => {
+    const token = localStorage.getItem('token');
     try {
-      await axios.delete(`http://localhost:3001/delete/${fileName}`);
+      await axios.delete(`http://localhost:3001/delete/${fileName}`, {
+        headers: {
+          Authorization: `${token}`,
+        }},);
       setFileList((prevList) => prevList.filter((name) => name !== fileName));
       alert('File eliminato correttamente');
     } catch (error) {
@@ -37,13 +47,20 @@ const FormAllegati = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    const token = localStorage.getItem('token');
+  
     if (selectedFile && selectedFile.type === 'application/pdf') {
       const formData = new FormData();
       formData.append('file', selectedFile);
-
+  
       try {
-        await axios.post('http://localhost:3001/upload', formData);
+        await axios.post('http://localhost:3001/upload', formData, {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
+  
         setFileList((prevList) => [...prevList, selectedFile.name]);
         alert('File inviato correttamente');
       } catch (error) {

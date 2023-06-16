@@ -7,13 +7,36 @@ const fs = require('fs')
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const PdfPrinter = require('pdfmake');
+const jwt = require('jsonwebtoken');
+const jwtSecretKey = 'RickBardu';
 
 
 app.use(cors())
+
 app.use(fileUpload());
 const server = http.createServer(app)
 
-app.get('/download/:filename', (req, res) => {
+const authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ success: false, error: 'Authorization token missing.' });
+  }
+
+  jwt.verify(token, jwtSecretKey, (err, decoded) => {
+    if (err) {
+      console.log('token: '+token)
+      console.log('jwtsecret: '+jwtSecretKey)
+      console.log(err)
+      return res.status(401).json({ success: false, error: 'Invalid token.' });
+    }
+    req.user = decoded;
+    next();
+  });
+};
+
+app.use(authenticateToken);
+
+app.get('/download/:filename',authenticateToken, (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(__dirname, filename);
   
@@ -25,7 +48,7 @@ app.get('/download/:filename', (req, res) => {
   });
 });
 
-app.delete('/delete/:filename', (req, res) => {
+app.delete('/delete/:filename',authenticateToken, (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(__dirname, 'Allegati', filename);
 
@@ -40,7 +63,7 @@ app.delete('/delete/:filename', (req, res) => {
   });
 });
 
-app.post('/upload', (req, res) => {
+app.post('/upload',authenticateToken, (req, res) => {
   if (req.files) {
     const file = req.files.file;
     const originalFileName = file.name;

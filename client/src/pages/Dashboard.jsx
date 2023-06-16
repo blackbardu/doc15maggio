@@ -81,28 +81,48 @@ const Dashboard = () => {
     );
   };
 
+  const fetchData = async (token) => {
+    try {
+      const response = await axios.post('http://localhost:3005/api/filedata', {
+        pages: filteredArray,
+        token: token,
+      });
+
+      setFilePresence(response.data);
+    } catch (error) {
+      console.log('Error:', error.message);
+    }
+  };
+
   useEffect(() => {
-    socket.emit('dotted_files', { myArray: filteredArray });
+    const token = localStorage.getItem('token');
 
-    socket.on('filepresence', (data) => {
-      const { filename, isPresent } = data;
-      setFilePresence((prevFilePresence) => ({
-        ...prevFilePresence,
-        [filename]: isPresent,
-      }));
-    });
+    if (!token) {
+      navigate('/');
+    } else {
+      fetchData(token);
+      socket.emit('dotted_files', { myArray: filteredArray });
 
-    socket.on('filedownload', ({ filename }) => {
-      alert(filename);
-    });
+      socket.on('filepresence', (data) => {
+        const { filename, isPresent } = data;
+        setFilePresence((prevFilePresence) => ({
+          ...prevFilePresence,
+          [filename]: isPresent,
+        }));
+      });
 
-    socket.on('filedownload_completo', ({ filename }) => {
-      alert(filename);
-    });
+      socket.on('filedownload', ({ filename }) => {
+        alert(filename);
+      });
 
-    return () => {
-      socket.off('filepresence');
-    };
+      socket.on('filedownload_completo', ({ filename }) => {
+        alert(filename);
+      });
+
+      return () => {
+        socket.off('filepresence');
+      };
+    }
   }, []);
 
   const isFilePresent = (filename) => {
