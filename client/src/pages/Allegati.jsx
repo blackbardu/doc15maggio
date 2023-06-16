@@ -1,4 +1,5 @@
 import FormAllegati from "../components/Forms/FormAllegati";
+import { Scrollbars } from 'react-custom-scrollbars-2';
 const Allegati = () => {
   return (
     <Scrollbars className="scrollbars-container">

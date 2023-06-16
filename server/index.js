@@ -4,11 +4,13 @@ const http = require('http')
 const {Server} = require('socket.io')
 const cors = require('cors')
 const fs = require('fs')
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const PdfPrinter = require('pdfmake');
 
 
 app.use(cors())
+app.use(fileUpload());
 const server = http.createServer(app)
 
 app.get('/download/:filename', (req, res) => {
@@ -21,6 +23,41 @@ app.get('/download/:filename', (req, res) => {
       res.status(500).send('Error downloading file');
     }
   });
+});
+
+app.delete('/delete/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, 'Allegati', filename);
+
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Errore durante l\'eliminazione del file.');
+    } else {
+      console.log('File eliminato:', filename);
+      res.status(200).send('File eliminato correttamente.');
+    }
+  });
+});
+
+app.post('/upload', (req, res) => {
+  if (req.files) {
+    const file = req.files.file;
+    const originalFileName = file.name;
+    const savePath = path.join(__dirname, 'Allegati', originalFileName);
+
+    file.mv(savePath, (err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Errore durante il salvataggio del file.');
+      } else {
+        console.log('File salvato:', originalFileName);
+        res.status(200).send('File salvato correttamente.');
+      }
+    });
+  } else {
+    res.status(400).send('Nessun file caricato.');
+  }
 });
 
 const parseTableData = (tableString) => {
@@ -115,6 +152,22 @@ io.on('connection', (socket) => {
           }
         
     })
+
+    socket.on('get_file_list', () => {
+      const allegatiDir = path.join(__dirname, 'Allegati');
+      fs.readdir(allegatiDir, (err, files) => {
+        if (err) {
+          console.error('Impossibile leggere la directory degli allegati:', err);
+          return;
+        }
+  
+        const fileList = files.filter((file) => fs.statSync(path.join(allegatiDir, file)).isFile());
+        socket.emit('file_list', fileList);
+      });
+    });  
+    
+    
+    
 
     socket.on('save_table', (data) => {
       const { filename, tableData } = data;
