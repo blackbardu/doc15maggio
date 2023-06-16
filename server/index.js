@@ -36,17 +36,24 @@ const authenticateToken = (req, res, next) => {
 
 app.use(authenticateToken);
 
-app.get('/download/:filename',authenticateToken, (req, res) => {
+app.get('/download/:filename', authenticateToken, (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(__dirname, filename);
-  
-  res.download(filePath, (err) => {
+
+  fs.access(filePath, fs.constants.R_OK, (err) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error downloading file');
+      res.status(404).send('File not found');
+    } else {
+      const fileStream = fs.createReadStream(filePath);
+
+      res.set('Authorization', req.headers.authorization);
+
+      fileStream.pipe(res);
     }
   });
 });
+
 
 app.delete('/delete/:filename',authenticateToken, (req, res) => {
   const filename = req.params.filename;
@@ -955,6 +962,12 @@ io.on('connection', (socket) => {
           { text: relazionefinaleFileReligione },
           { text: 'Programma svolto', style: 'header' },
           { text: programmasvoltoFileReligione },
+
+          {
+            text: 'Allegati',
+            style: 'header',
+            pageBreak: 'before'
+          }
         ],
         styles: {
           header: {
@@ -969,6 +982,9 @@ io.on('connection', (socket) => {
           },
         },
       };
+
+      const pdfArray = readPDFfiles();
+      console.log(pdfArray)
 
       const pdfDoc = printer.createPdfKitDocument(docDefinition);
       const filePath = path.join(__dirname, `documento15maggio.pdf`);
@@ -986,6 +1002,12 @@ io.on('connection', (socket) => {
       });
 })
 
+function readPDFfiles() {
+  const folderPath = './Allegati'; 
+  const files = fs.readdirSync(folderPath); 
+  const pdfFiles = files.filter(file => path.extname(file).toLowerCase() === '.pdf');
+  return pdfFiles;
+}
 
 function readDottedFiles(socket, myArray) {
   const filePrefixes = ['relazionefinale', 'programmasvolto'];

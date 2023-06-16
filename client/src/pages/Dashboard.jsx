@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { SiAdobeacrobatreader } from 'react-icons/si';
 import { OverlayTrigger, Tooltip, Overlay } from 'react-bootstrap';
+import axios from 'axios';
 
 
 
@@ -146,7 +147,7 @@ const Dashboard = () => {
     const relazionefinale = `relazionefinale_${item}.txt`;
   
     if (item === 'coordinatore') {
-      return true; // Eccezione per il coordinatore mancante
+      return true;
     }
   
     return (
@@ -155,10 +156,32 @@ const Dashboard = () => {
   };
   
 
-  const downloadFile = (filename) => {
+  const downloadFile = async (filename) => {
     const downloadUrl = `http://localhost:3001/download/${filename}`;
-    window.open(downloadUrl);
+  
+    try {
+      const response = await axios.get(downloadUrl, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+        responseType: 'blob',
+      });
+  
+      const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+  
+      const link = document.createElement('a');
+      link.href = fileUrl;
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+  
+      link.click();
+  
+      document.body.removeChild(link);
+    } catch (error) {
+      console.log('Error:', error.message);
+    }
   };
+  
 
   const richiediDocumentoCompleto = () => {
     socket.emit('document_creation');
