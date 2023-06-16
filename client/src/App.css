@@ -137,25 +137,40 @@ main {
 
 .cell-text {
   width: 100%;
-  min-height: 50px; /* Imposta l'altezza minima delle celle */
-  max-height: 150px; /* Imposta l'altezza massima delle celle */
+  min-height: 50px;
+  max-height: 150px; 
   overflow: hidden;
   word-wrap: break-word;
 }
 
+.user-info {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+}
+
 .scrollbars-container {
-  height: calc(100vh - 20px); /* Sottrae l'altezza desiderata della barra di navigazione o di altre componenti presenti nella parte superiore della pagina */
+  position: relative;
+}
+
+.scrollbars-container .user-info {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
 }
 
 
+
 .coordinatore-component {
-  grid-column: 2; /* Posiziona il componente nella seconda colonna */
+  grid-column: 2; 
 }
 
 .dashboard-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Crea due colonne di uguale larghezza */
-  gap: 20px; /* Aggiunge uno spazio tra le colonne */
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 20px;
 }
 
 .bars {

@@ -1,7 +1,10 @@
 const express = require('express');
 const mysql = require('mysql');
 const app = express();
+const jwt = require('jsonwebtoken');
 const port = 3005;
+
+const jwtSecretKey = 'RickBardu';
 
 const pool = mysql.createPool({
   host: '127.0.0.1',
@@ -51,7 +54,8 @@ app.post('/api/login', (req, res) => {
                 res.status(500).json({ success: false, error: 'An error occurred during login.' });
               } else {
                 const isCoordinatore = resultsCoordinatore.length > 0;
-                res.json({ success: true, loggedInUsername, materieInsegnate, isCoordinatore });
+                const token = jwt.sign({ username: loggedInUsername, id: idInsegnante }, jwtSecretKey, { expiresIn: '1h' });
+                res.json({ success: true, token, loggedInUsername, materieInsegnate, isCoordinatore });
                 console.log(loggedInUsername, materieInsegnate, isCoordinatore);
               }
             });

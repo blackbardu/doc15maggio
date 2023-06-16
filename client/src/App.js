@@ -41,6 +41,7 @@ function App() {
     if (window.confirm('Sei sicuro di voler effettuare il logout?')) {
       setLoggedIn(false);
       setUsername('');
+      localStorage.removeItem('token'); // Rimuovi il token dal localStorage
       window.location.href = "/"; 
     }
   };
@@ -51,9 +52,10 @@ function App() {
       {loggedIn ? (
         <div>
           <div className="user-info">
-            <span>Bentornato, {username}!</span>
-            <Button variant="success" onClick={handleLogout}>Logout</Button>
+              <span>Bentornato, {username}!</span>
+              <Button variant="success" onClick={handleLogout}>Logout</Button>
           </div>
+          <div className="app-container">
           <SideBar>
             <Routes>
               <Route path="/main" element={<PrivateRoute element={Dashboard} loggedIn={loggedIn} />} />
@@ -72,6 +74,7 @@ function App() {
               <Route path="/ginnastica" element={<PrivateRoute element={Ginnastica} loggedIn={loggedIn} />} />
             </Routes>
           </SideBar>
+          </div>
         </div>
       ) : (
         <Routes>

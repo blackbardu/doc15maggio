@@ -5,6 +5,9 @@ import { MyArrayContext } from '../components/MyArrayContext';
 import { FaFileAlt } from 'react-icons/fa';
 import Button from 'react-bootstrap/Button';
 import { Scrollbars } from 'react-custom-scrollbars-2';
+import { SiAdobeacrobatreader } from 'react-icons/si';
+import { OverlayTrigger, Tooltip, Overlay } from 'react-bootstrap';
+
 
 
 const socket = io.connect('http://localhost:3001');
@@ -14,6 +17,8 @@ const Dashboard = () => {
   const { myArray } = useContext(MyArrayContext);
   const filteredArray = myArray.filter((item) => item !== 'coordinatore');
   console.log(filteredArray)
+
+  const [isAllElementsGreen, setIsAllElementsGreen] = useState(false);
 
 
   var arrayPagina = []
@@ -104,14 +109,31 @@ const Dashboard = () => {
     return filePresence[filename] || false;
   };
 
+  useEffect(() => {
+    const areAllElementsGreen = myArray.every((item) => isBothFilesPresent(item));
+    setIsAllElementsGreen(areAllElementsGreen);
+
+    if (!areAllElementsGreen && !myArray.includes('coordinatore')) {
+      const missingFiles = myArray.filter((item) => !isBothFilesPresent(item));
+      console.log("File mancanti:", missingFiles);
+    }
+  }, [myArray, isFilePresent]);
+
+  
+
   const isBothFilesPresent = (item) => {
     const programmasvolto = `programmasvolto_${item}.txt`;
     const relazionefinale = `relazionefinale_${item}.txt`;
-
+  
+    if (item === 'coordinatore') {
+      return true; // Eccezione per il coordinatore mancante
+    }
+  
     return (
       isFilePresent(programmasvolto) && isFilePresent(relazionefinale)
     );
   };
+  
 
   const downloadFile = (filename) => {
     const downloadUrl = `http://localhost:3001/download/${filename}`;
@@ -120,7 +142,7 @@ const Dashboard = () => {
 
   const richiediDocumentoCompleto = () => {
     socket.emit('document_creation');
-    const filename = `output_materie.pdf`;
+    const filename = `documento15maggio.pdf`;
     downloadFile(filename);
   };
 
@@ -194,6 +216,23 @@ const Dashboard = () => {
           )}
         </div>
       ))}
+      {coordinatorePresente && (
+        <div
+          className="position-fixed d-flex justify-content-end"
+          style={{ bottom: '20px', right: '20px', zIndex: '9999' }}
+        >
+          <Button
+          variant="danger"
+          className="m-3 p-2"
+          onClick={richiediDocumentoCompleto}
+          disabled={!isAllElementsGreen}
+          style={{ width: 'fit-content', backgroundColor: isAllElementsGreen ? '' : 'gray' }}
+        >
+          <SiAdobeacrobatreader />
+          ㅤScarica documento completo
+        </Button>
+        </div>
+      )}
     </Scrollbars>
   );
 };

@@ -5,12 +5,18 @@ import { MyArrayContext } from '../components/MyArrayContext';
 import axios from 'axios';
 
 function LoginPage({ onLogin }) {
+  
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { setMyArray } = useContext(MyArrayContext);
   
-  var materie = []
+  var myArray = []
+
+  const saveTokenToLocalStorage = (token) => {
+    localStorage.setItem('token', token);
+  };
 
   const handleUserChange = (event) => {
     setUsername(event.target.value);
@@ -22,35 +28,38 @@ function LoginPage({ onLogin }) {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
+  
     try {
       const response = await axios.post('http://localhost:3005/api/login', { username, password });
-      const { success, loggedInUsername, materieInsegnate, isCoordinatore, error } = response.data;
-
+      const { success, token, loggedInUsername, materieInsegnate, isCoordinatore, error } = response.data;
+  
       if (success) {
         onLogin(loggedInUsername);
-        navigate('/main');
-        for(let i = 0; i<materieInsegnate.length; i++){
-          materie.push(materieInsegnate[i]);
+        for (let i = 0; i < materieInsegnate.length; i++) {
+          myArray.push(materieInsegnate[i]);
         }
-
-        if(isCoordinatore==true){
-          materie.push('coordinatore')
+  
+        if (isCoordinatore == true) {
+          myArray.push('coordinatore')
         }
-
-        setMyArray(materie);
-
+  
+        navigate('/main', { state: { myArray } });
+  
+        setMyArray(myArray);
+        saveTokenToLocalStorage(token);
+  
       } else {
-        alert(error);
+        alert(error || 'Invalid username or password.');
       }
     } catch (error) {
       console.error('Error during login:', error);
       alert('An unexpected error occurred during login. Please try again later.');
     }
-
+  
     setUsername('');
     setPassword('');
   };
+  
 
   
 

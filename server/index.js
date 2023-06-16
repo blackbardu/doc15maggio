@@ -88,6 +88,12 @@ io.on('connection', (socket) => {
               }
               console.log('Text file created successfully.');
               io.emit('filecreato');
+              const isEmpty = /^\s*$/.test(message);
+              console.log('empty:'+isEmpty)
+              if (isEmpty == false) {
+                socket.emit('filepresence', { newFileName, isPresent: !isEmpty });
+                console.log(newFileName, !isEmpty);
+              }
               readFiles(socket);
             });
           } else {
@@ -98,6 +104,12 @@ io.on('connection', (socket) => {
               }
               console.log('Text file updated successfully.');
               io.emit('filecreato');
+              const isEmpty = /^\s*$/.test(message);
+              console.log('empty:'+isEmpty)
+              if (isEmpty == false) {
+                socket.emit('filepresence', { newFileName, isPresent: !isEmpty });
+                console.log(newFileName, !isEmpty);
+              }
               readFiles(socket);
             });
           }
@@ -883,12 +895,12 @@ io.on('connection', (socket) => {
       };
 
       const pdfDoc = printer.createPdfKitDocument(docDefinition);
-      const filePath = path.join(__dirname, `output_materie.pdf`);
+      const filePath = path.join(__dirname, `documento15maggio.pdf`);
     
       pdfDoc.pipe(fs.createWriteStream(filePath));
       pdfDoc.end();
     
-      socket.emit('filedownload_completo', { filename: `output_materie.pdf` });
+      socket.emit('filedownload_completo', { filename: `documento15maggio.pdf` });
 
 
     })
