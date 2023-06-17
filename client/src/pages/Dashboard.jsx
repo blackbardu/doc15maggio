@@ -117,7 +117,12 @@ const Dashboard = () => {
       });
 
       socket.on('filedownload_completo', ({ filename }) => {
-        alert(filename);
+        socket.emit('merge')
+      });
+
+      
+      socket.on('filedownload_merge', ({ filename }) => {
+        downloadFile(filename)
       });
 
       return () => {
@@ -184,9 +189,7 @@ const Dashboard = () => {
   
 
   const richiediDocumentoCompleto = () => {
-    socket.emit('document_creation');
-    const filename = `documento15maggio.pdf`;
-    downloadFile(filename);
+    socket.emit('document_creation')
   };
 
   const richiediDocumento = (pageName) => {

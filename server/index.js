@@ -3,12 +3,15 @@ const app = express()
 const http = require('http')
 const {Server} = require('socket.io')
 const cors = require('cors')
-const fs = require('fs')
+const fs = require('fs-extra')
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const PdfPrinter = require('pdfmake');
 const jwt = require('jsonwebtoken');
 const jwtSecretKey = 'RickBardu';
+const { PDFDocument,rgb, degrees } = require('pdf-lib');
+const fontkit = require('@pdf-lib/fontkit');
+
 
 
 app.use(cors())
@@ -462,6 +465,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('document_creation',() =>{
+
+
       const programmasvoltoFileItaliano = fs.readFileSync(`programmasvolto_italiano.txt`, 'utf8');
       const relazionefinaleFileItaliano = fs.readFileSync(`relazionefinale_italiano.txt`, 'utf8');
 
@@ -983,31 +988,134 @@ io.on('connection', (socket) => {
         },
       };
 
-      const pdfArray = readPDFfiles();
-      console.log(pdfArray)
-
+      
       const pdfDoc = printer.createPdfKitDocument(docDefinition);
-      const filePath = path.join(__dirname, `documento15maggio.pdf`);
-    
+      const filePath = path.join(__dirname, `documento15maggio-incompleto.pdf`);
+      
       pdfDoc.pipe(fs.createWriteStream(filePath));
       pdfDoc.end();
-    
-      socket.emit('filedownload_completo', { filename: `documento15maggio.pdf` });
+      
+      readPDFfiles()
+
+      socket.emit('filedownload_completo', { filename: `documento15maggio-incompleto.pdf` });
 
 
+    })
+
+    socket.on('merge', () => {
+      mergeCompleto()
+      socket.emit('filedownload_merge', { filename: `documento15maggio.pdf` })
+      
     })
 
     socket.on('disconnect', () => {
         console.log(`User disconnected: ${socket.id}`);
       });
 })
+mergeCompleto()
 
-function readPDFfiles() {
-  const folderPath = './Allegati'; 
-  const files = fs.readdirSync(folderPath); 
-  const pdfFiles = files.filter(file => path.extname(file).toLowerCase() === '.pdf');
-  return pdfFiles;
+async function mergeCompleto() {
+
+  try {
+
+    const existingPdfPath = 'documento15maggio-incompleto.pdf';
+    const existingPdfBytes = fs.readFileSync(existingPdfPath);
+
+    const mergedPdfPath = path.join(__dirname, 'Allegati', 'merged.pdf');
+    const mergedPdfBytes = fs.readFileSync(mergedPdfPath);
+    
+
+    console.log('15 Head:', String(existingPdfBytes.subarray(0, 250)))
+    console.log('Merge Head:', String(mergedPdfBytes.subarray(0, 250)))
+
+    let existingPdfDoc;
+    let mergedPdfDoc;
+
+    try {
+      existingPdfDoc = await PDFDocument.load(existingPdfBytes);
+    } catch (error) {
+      console.error('Failed to parse existing PDF document:', error);
+      return;
+    }
+
+    try {
+      mergedPdfDoc = await PDFDocument.load(mergedPdfBytes);
+    } catch (error) {
+      console.error('Failed to parse merged PDF document:', error);
+      return;
+    }
+
+    const mergedPages = await existingPdfDoc.copyPages(mergedPdfDoc, mergedPdfDoc.getPageIndices());
+
+    mergedPages.forEach((page) => {
+      existingPdfDoc.addPage(page);
+    });
+
+    const modifiedPdfBytes = await existingPdfDoc.save();
+    const filePath = path.join(__dirname, 'documento15maggio.pdf');
+    fs.writeFileSync(filePath, modifiedPdfBytes);
+
+    console.log('PDF files merged successfully.');
+  } catch (error) {
+    console.error('An error occurred during PDF merging:', error);
+  }
 }
+
+async function readPDFfiles() {
+  const folderPath = './Allegati';
+  const files = fs.readdirSync(folderPath);
+  const pdfFiles = files.filter(file => path.extname(file).toLowerCase() === '.pdf' && file !== 'merged.pdf');
+
+  const mergedPdf = await PDFDocument.create();
+
+  const times = await mergedPdf.registerFontkit(fontkit);
+
+  const fontBytes = fs.readFileSync('node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf');
+  const boldFontBytes = fs.readFileSync('node_modules/dejavu-fonts-ttf/ttf/DejaVuSans-Bold.ttf');
+
+  const [font, boldFont] = await Promise.all([
+    mergedPdf.embedFont(fontBytes, { fontkit }),
+    mergedPdf.embedFont(boldFontBytes, { fontkit })
+  ]);
+
+  for (const file of pdfFiles) {
+    const filePath = path.join(folderPath, file);
+    const pdfBytes = fs.readFileSync(filePath);
+    const pdf = await PDFDocument.load(pdfBytes);
+    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+    copiedPages.forEach(page => mergedPdf.addPage(page));
+  }
+
+  const firstPage = mergedPdf.getPages()[0];
+  const { width, height } = firstPage.getSize();
+
+  firstPage.drawText('Allegati', {
+    x: width / 2,
+    y: height / 2 + 20,
+    size: 14,
+    font: boldFont,
+    color: rgb(0, 0, 0),
+    opacity: 1,
+    rotate: degrees(0),
+    xSkew: degrees(0),
+    ySkew: degrees(0),
+    lineHeight: 1,
+    maxWidth: 200,
+    horizontalAlignment: 'center',
+    verticalAlignment: 'top',
+    wordBreaks: [],
+  });
+
+  const mergedPdfBytes = await mergedPdf.save();
+
+  const outputPath = path.join(folderPath, 'merged.pdf');
+  fs.writeFileSync(outputPath, mergedPdfBytes);
+
+  console.log('I file PDF sono stati uniti con successo nel file merged.pdf');
+  
+  
+}
+
 
 function readDottedFiles(socket, myArray) {
   const filePrefixes = ['relazionefinale', 'programmasvolto'];
