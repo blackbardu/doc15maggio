@@ -96,7 +96,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    socket.emit('document_creation')
+    
 
     const token = localStorage.getItem('token');
 
@@ -114,15 +114,6 @@ const Dashboard = () => {
         }));
       });
 
-      socket.on('filedownload', ({ filename }) => {
-        alert(filename);
-      });
-
-      socket.on('filedownload_completo', ({ filename }) => {
-        //
-        alert(filename)
-      });
-
       
       socket.on('filedownload_merge', ({ filename }) => {
         downloadFile(filename)
@@ -132,6 +123,8 @@ const Dashboard = () => {
         socket.off('filepresence');
       };
     }
+
+    
   }, []);
 
   const isFilePresent = (filename) => {
@@ -139,6 +132,8 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+
+    socket.emit('document_creation')
     const areAllElementsGreen = myArray.every((item) => isBothFilesPresent(item));
     setIsAllElementsGreen(areAllElementsGreen);
 

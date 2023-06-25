@@ -19,6 +19,8 @@ import { MyArrayProvider } from './components/MyArrayContext';
 import './App.css';
 import Tabelle from './pages/Tabelle';
 import Allegati from './pages/Allegati'
+import jwtDecode from 'jwt-decode';
+
 
 function PrivateRoute({ element: Element, loggedIn, ...rest }) {
   return loggedIn ? (
@@ -38,11 +40,26 @@ function App() {
   };
 
   const handleLogout = () => {
+    if (loggedIn) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+        if (decodedToken.exp < currentTime) {
+          setLoggedIn(false);
+          setUsername('');
+          localStorage.removeItem('token');
+          window.location.href = "/";
+          return;
+        }
+      }
+    }
+  
     if (window.confirm('Sei sicuro di voler effettuare il logout?')) {
       setLoggedIn(false);
       setUsername('');
-      localStorage.removeItem('token'); // Rimuovi il token dal localStorage
-      window.location.href = "/"; 
+      localStorage.removeItem('token');
+      window.location.href = "/";
     }
   };
 

@@ -50,12 +50,11 @@ app.get('/download/:filename', authenticateToken, (req, res) => {
     } else {
       const fileStream = fs.createReadStream(filePath);
 
-      res.set('Authorization', req.headers.authorization);
-
       fileStream.pipe(res);
     }
   });
 });
+
 
 
 app.delete('/delete/:filename',authenticateToken, (req, res) => {

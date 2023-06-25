@@ -18,7 +18,8 @@ const FormAllegati = () => {
       socket.emit('get_file_list');
 
       socket.on('file_list', (fileList) => {
-        setFileList(fileList);
+        const filteredFileList = fileList.filter((fileName) => fileName !== 'merged.pdf');
+        setFileList(filteredFileList);
       });
 
       return () => {
