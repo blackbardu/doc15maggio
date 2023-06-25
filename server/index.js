@@ -967,12 +967,6 @@ io.on('connection', (socket) => {
           { text: relazionefinaleFileReligione },
           { text: 'Programma svolto', style: 'header' },
           { text: programmasvoltoFileReligione },
-
-          {
-            text: 'Allegati',
-            style: 'header',
-            pageBreak: 'before'
-          }
         ],
         styles: {
           header: {
@@ -1012,7 +1006,6 @@ io.on('connection', (socket) => {
         console.log(`User disconnected: ${socket.id}`);
       });
 })
-mergeCompleto()
 
 async function mergeCompleto() {
 
@@ -1066,7 +1059,14 @@ async function readPDFfiles() {
   const files = fs.readdirSync(folderPath);
   const pdfFiles = files.filter(file => path.extname(file).toLowerCase() === '.pdf' && file !== 'merged.pdf');
 
-  const mergedPdf = await PDFDocument.create();
+  let mergedPdf;
+
+  if (pdfFiles.length === 0) {
+    mergedPdf = await PDFDocument.create();
+  } else {
+    const mergedPdfBytes = fs.readFileSync(path.join(folderPath, 'merged.pdf'));
+    mergedPdf = await PDFDocument.load(mergedPdfBytes);
+  }
 
   const times = await mergedPdf.registerFontkit(fontkit);
 
@@ -1087,24 +1087,7 @@ async function readPDFfiles() {
   }
 
   const firstPage = mergedPdf.getPages()[0];
-  const { width, height } = firstPage.getSize();
-
-  firstPage.drawText('Allegati', {
-    x: width / 2,
-    y: height / 2 + 20,
-    size: 14,
-    font: boldFont,
-    color: rgb(0, 0, 0),
-    opacity: 1,
-    rotate: degrees(0),
-    xSkew: degrees(0),
-    ySkew: degrees(0),
-    lineHeight: 1,
-    maxWidth: 200,
-    horizontalAlignment: 'center',
-    verticalAlignment: 'top',
-    wordBreaks: [],
-  });
+  const { width, height } = firstPage.getSize()
 
   const mergedPdfBytes = await mergedPdf.save();
 
@@ -1112,8 +1095,6 @@ async function readPDFfiles() {
   fs.writeFileSync(outputPath, mergedPdfBytes);
 
   console.log('I file PDF sono stati uniti con successo nel file merged.pdf');
-  
-  
 }
 
 

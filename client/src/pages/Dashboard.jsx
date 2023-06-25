@@ -96,6 +96,8 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    socket.emit('document_creation')
+
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -117,7 +119,8 @@ const Dashboard = () => {
       });
 
       socket.on('filedownload_completo', ({ filename }) => {
-        socket.emit('merge')
+        //
+        alert(filename)
       });
 
       
@@ -189,7 +192,7 @@ const Dashboard = () => {
   
 
   const richiediDocumentoCompleto = () => {
-    socket.emit('document_creation')
+    socket.emit('merge')
   };
 
   const richiediDocumento = (pageName) => {
